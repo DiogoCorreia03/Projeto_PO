@@ -9,7 +9,6 @@ import prr.app.exception.InvalidTerminalKeyException;
 import prr.app.exception.UnknownClientKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Register terminal.
@@ -24,7 +23,6 @@ class DoRegisterTerminal extends Command<Network> {
     addStringField("id", Message.terminalKey());
     addOptionField("type", Message.terminalType(), "BASIC", "FANCY");
     addStringField("clientKey", Message.clientKey());
-    //FIXME add command fields. Done?
   }
 
   @Override
@@ -44,6 +42,5 @@ class DoRegisterTerminal extends Command<Network> {
     catch (UnknownClientException e) {
       throw new UnknownClientKeyException(e.getKey());
     }
-    //FIXME implement command. Done?
   }
 }

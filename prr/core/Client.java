@@ -60,7 +60,6 @@ public class Client implements Serializable{
 
   public double getPayments() {
     double sum = 0;
-
     for (Terminal t: _terminals.values())
       sum += t.getPayments();
 
@@ -69,7 +68,6 @@ public class Client implements Serializable{
 
   public double getDebts() {
     double sum = 0;
-
     for (Terminal t: _terminals.values())
       sum += t.getDebt();
 
@@ -90,7 +88,6 @@ public class Client implements Serializable{
       if (t.getMode() != TerminalMode.OFF)
         q++;
     }
-
     return "CLIENT|"+_key +"|"+ _name +"|"+ _nif +"|"+ _level
            +"|"+ (_receiveNotifications?"YES":"NO") +"|"+ q 
            +"|"+ Math.round(getPayments()) +"|"+ Math.round(getDebts());
