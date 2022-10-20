@@ -141,7 +141,7 @@ public class Network implements Serializable {
    * to be added as a friend isn't registered in the Network.
    */
   public void addFriend(String terminal, String friend) throws UnknownTerminalException{
-    if (!_terminals.containsKey(friend))
+    if (!_terminals.containsKey(friend) || !_terminals.containsKey(terminal))
       throw new UnknownTerminalException(friend);
       
     _terminals.get(terminal).addTerminalFriend(_terminals.get(friend));

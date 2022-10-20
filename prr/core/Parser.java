@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import prr.core.exception.UnrecognizedEntryException;
 import prr.core.exception.UnknownClientException;
 import prr.core.exception.UnknownTerminalException;
+import prr.core.exception.DuplicateClientException;
 import prr.core.exception.TerminalException;
 // import more exception core classes if needed
 
@@ -61,7 +62,7 @@ public class Parser {
       _network.registerClient(components[1], components[2], taxNumber);
     } catch (NumberFormatException e) {
       throw new UnrecognizedEntryException("Invalid number in line " + line, e);
-    } catch (Exception e) {
+    } catch (DuplicateClientException e) {
       throw new UnrecognizedEntryException("Invalid specification in line: " + line, e);
     }
   }
