@@ -19,6 +19,8 @@ import prr.core.exception.UnrecognizedEntryException;
  * Class that implements all the functionalities of the App.
  * Stores all the relevant Objects and implements methods on them.
  * Can be Serializable to save it's current state and load it on a different session.
+ * @author Diogo Correia IST1103198
+ * @author João Santos IST1102746
  */
 public class Network implements Serializable {
 
