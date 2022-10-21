@@ -83,13 +83,9 @@ public class Client implements Serializable{
   }  
 
   public String toString() {
-    int q = 0;
-    for (Terminal t: _terminals.values()) {
-      if (t.getMode() != TerminalMode.OFF)
-        q++;
-    }
+    
     return "CLIENT|"+_key +"|"+ _name +"|"+ _nif +"|"+ _level
-           +"|"+ (_receiveNotifications?"YES":"NO") +"|"+ q 
+           +"|"+ (_receiveNotifications?"YES":"NO") +"|"+ _terminals.size() 
            +"|"+ Math.round(getPayments()) +"|"+ Math.round(getDebts());
   }
 }
