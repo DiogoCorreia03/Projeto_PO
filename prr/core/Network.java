@@ -45,6 +45,7 @@ public class Network implements Serializable {
    * already registered in the Network.
    */
   public void registerClient(String key, String name, int nif) throws DuplicateClientException {
+    key.toLowerCase();
     if (_clients.containsKey(key))
       throw new DuplicateClientException(key);
     Client client = new Client(key, name, nif);
@@ -59,6 +60,7 @@ public class Network implements Serializable {
    * Key isn't registered in the Network.
    */
   public Client showClient(String key) throws UnknownClientException {
+    key.toLowerCase();
     if (!_clients.containsKey(key))
       throw new UnknownClientException(key);
     return _clients.get(key);
@@ -87,6 +89,7 @@ public class Network implements Serializable {
    * @throws UnknownClientException Exception thrown when the Owner's Key isn't registered in the Network.
    */
   public Terminal registerTerminal(String id, String type, String clientKey) throws DuplicateTerminalException, InvalidTerminalException, UnknownClientException{
+    clientKey.toLowerCase();
     if (_terminals.containsKey(id))
       throw new DuplicateTerminalException(id);
     if (id.length()!=6 || !id.matches("[0-9]+"))
