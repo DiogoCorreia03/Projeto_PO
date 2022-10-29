@@ -12,4 +12,10 @@ public class VoiceCommunication extends InteractiveCommunication{
   protected double computeCost(ClientLevel level) {
     return level.priceVoice(getSize());
   }
+
+
+  @Override
+  public String toString() {
+    return "VOICE|" + super.toString();
+  }
 }

@@ -10,9 +10,15 @@ import prr.core.client.Client;
 import prr.core.client.clientLevels.ClientLevel;
 import prr.core.communication.Communication;
 import prr.core.communication.TextCommunication;
+import prr.core.communication.VoiceCommunication;
 import prr.core.exception.DuplicateTerminalException;
+import prr.core.exception.TerminalBusyException;
+import prr.core.exception.TerminalException;
 import prr.core.exception.TerminalOffException;
+import prr.core.exception.TerminalSilenceException;
 import prr.core.exception.UnknownTerminalException;
+import prr.core.exception.UnsupportedAtDestinationException;
+import prr.core.exception.UnsupportedAtOriginException;
 
 /**
  * Abstract terminal.
@@ -111,14 +117,14 @@ abstract public class Terminal implements Serializable {
     return joined;
   }
 
-  public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException{
+  public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException {
     Communication textComm = receiver.acceptSMS(id, this, message, _owner.getClientLevel());
     _madeCommunications.add(textComm);
     _debt += textComm.getCost();
     return textComm;
   }
 
-  protected Communication acceptSMS(int id, Terminal origin, String msg, ClientLevel level) throws TerminalOffException{
+  protected Communication acceptSMS(int id, Terminal origin, String msg, ClientLevel level) throws TerminalOffException {
     if (_mode == TerminalMode.OFF)
       throw new TerminalOffException(_id);
       //FIXME adicionar mandar/criar notificacao
@@ -128,20 +134,36 @@ abstract public class Terminal implements Serializable {
     return textComm;
   }
 
-  public void makeVoiceCall(Terminal receiver) {
-
+  public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalException {
+    Communication voiceComm = receiver.acceptVoiceCall(id, this);
+    _ongoingCommunication = voiceComm;
+    _mode = TerminalMode.BUSY;
+    _madeCommunications.add(voiceComm);
+    return voiceComm;
   }
 
-   protected void acceptVoiceCall(Terminal origin) {
+   protected Communication acceptVoiceCall(int id, Terminal origin) throws TerminalException {
+    if (_mode == TerminalMode.OFF)
+      throw new TerminalOffException(_id);
+    if (_mode == TerminalMode.BUSY)
+      throw new TerminalBusyException(_id);
+    if (_mode == TerminalMode.SILENCE)
+      throw new TerminalSilenceException(_id);
 
+    Communication voiceComm = new VoiceCommunication(id, origin, this);
+    _ongoingCommunication = voiceComm;
+    _mode = TerminalMode.BUSY;
+    _receivedCommunications.add(voiceComm);
+    return voiceComm;
   }
 
-  public abstract void makeVideoCall(Terminal receiver);
+  public abstract Communication makeVideoCall(Terminal receiver, int id) throws UnsupportedAtOriginException;
 
-  protected abstract void acceptVideoCall(Terminal origin);
+  protected abstract Communication acceptVideoCall(Terminal origin) throws UnsupportedAtDestinationException;
+
 
   public void endOnGoingCommunication(int size) {
-
+    //FIXME como alterar valor do custo uma e uma só vez
   }
 
 
@@ -152,7 +174,7 @@ abstract public class Terminal implements Serializable {
    *          it was the originator of this communication.
    **/
   public boolean canEndCurrentCommunication() {
-    if (_mode == TerminalMode.BUSY)
+    if (_mode == TerminalMode.BUSY && _ongoingCommunication.isOrigin(_id))
       return true;
     return false;
   }

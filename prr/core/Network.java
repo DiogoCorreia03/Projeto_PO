@@ -208,8 +208,17 @@ public class Network implements Serializable {
   }
 
 
-  public void startInteractiveCommunication(Terminal origin, String receiverId, String type) {
+  public void startInteractiveCommunication(Terminal origin, String receiverId, String type) throws TerminalException{
+    if (!_terminals.containsKey(receiverId))
+      throw new InvalidTerminalException(receiverId);
 
+    Terminal receiver = _terminals.get(receiverId);
+    Communication interactiveComm = null;
+    switch (type) {
+      case "VOICE" -> interactiveComm = origin.makeVoiceCall(receiver, _communications.size()+1);
+      case "VIDEO" -> interactiveComm = origin.makeVideoCall(receiver, _communications.size()+1);
+    }
+    _communications.add(interactiveComm);
   }
 
   /**
