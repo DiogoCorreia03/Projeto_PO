@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
+import prr.core.ClientLevels.*;
 import prr.core.exception.DuplicateClientException;
 
 public class Client implements Serializable{
@@ -35,7 +36,7 @@ public class Client implements Serializable{
     _name = name;
     _nif = nif;
     _receiveNotifications = true;
-    _level = ClientLevel.NORMAL;
+    _level = NormalLevel.getInstance(); //FIXME adicionar os outros niveis
   }
 
   public String getKey() {

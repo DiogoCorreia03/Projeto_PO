@@ -8,6 +8,14 @@ public class BasicTerminal extends Terminal{
     super(id, owner);
   }
 
+  public void makeVideoCall(Terminal receiver) {
+
+  }
+
+  public void acceptVideoCall(Terminal origin) {
+
+  }
+
   public String toString() {
     return "BASIC|" + super.toString(); 
   }

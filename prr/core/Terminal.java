@@ -102,6 +102,31 @@ abstract public class Terminal implements Serializable {
     return joined;
   }
 
+  public void makeSMS(Terminal receiver, String message) {
+
+  }
+
+  void acceptSMS(Terminal origin) {
+
+  }
+
+  public void makeVoiceCall(Terminal receiver) {
+
+  }
+
+  void acceptVoiceCall(Terminal origin) {
+
+  }
+
+  public abstract void makeVideoCall(Terminal receiver);
+
+  abstract void acceptVideoCall(Terminal origin);
+
+  public void endOnGoingCommunication(int size) {
+
+  }
+
+
   /**
    * Checks if this terminal can end the current interactive communication.
    *

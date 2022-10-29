@@ -8,6 +8,14 @@ public class FancyTerminal extends Terminal{
     super(id, owner);
   }
 
+  public void makeVideoCall(Terminal receiver) {
+
+  }
+
+  public void acceptVideoCall(Terminal origin) {
+
+  }
+
   public String toString() {
     return "FANCY|" + super.toString(); 
   }

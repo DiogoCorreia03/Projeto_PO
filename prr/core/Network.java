@@ -45,11 +45,11 @@ public class Network implements Serializable {
    * already registered in the Network.
    */
   public void registerClient(String key, String name, int nif) throws DuplicateClientException {
-    key.toLowerCase();
-    if (_clients.containsKey(key))
+    String keyLower = key.toLowerCase();
+    if (_clients.containsKey(keyLower))
       throw new DuplicateClientException(key);
     Client client = new Client(key, name, nif);
-    _clients.put(key, client);
+    _clients.put(keyLower, client);
   }
 
   /**
@@ -60,10 +60,10 @@ public class Network implements Serializable {
    * Key isn't registered in the Network.
    */
   public Client showClient(String key) throws UnknownClientException {
-    key.toLowerCase();
-    if (!_clients.containsKey(key))
+    String keyLower = key.toLowerCase();
+    if (!_clients.containsKey(keyLower))
       throw new UnknownClientException(key);
-    return _clients.get(key);
+    return _clients.get(keyLower);
   }
 
   /**
@@ -89,15 +89,15 @@ public class Network implements Serializable {
    * @throws UnknownClientException Exception thrown when the Owner's Key isn't registered in the Network.
    */
   public Terminal registerTerminal(String id, String type, String clientKey) throws DuplicateTerminalException, InvalidTerminalException, UnknownClientException{
-    clientKey.toLowerCase();
+    String keyLower = clientKey.toLowerCase();
     if (_terminals.containsKey(id))
       throw new DuplicateTerminalException(id);
     if (id.length()!=6 || !id.matches("[0-9]+"))
       throw new InvalidTerminalException(id);
-    if (!_clients.containsKey(clientKey))
+    if (!_clients.containsKey(keyLower))
       throw new UnknownClientException(clientKey);
 
-    Client owner = _clients.get(clientKey);
+    Client owner = _clients.get(keyLower);
 
     switch(type) {
       case "BASIC":
@@ -182,6 +182,16 @@ public class Network implements Serializable {
         list.add(t);
 
     return list;
+  }
+
+
+  public void sendTextCommunication(Terminal origin, String receiverId, String msg) {
+
+  }
+
+
+  public void startInteractiveCommunication(Terminal origin, String receiverId, String type) {
+
   }
 
   /**
