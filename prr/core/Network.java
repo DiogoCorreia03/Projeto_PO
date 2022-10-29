@@ -13,11 +13,14 @@ import prr.core.exception.DuplicateClientException;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.UnknownClientException;
 import prr.core.exception.InvalidTerminalException;
+import prr.core.exception.TerminalException;
+import prr.core.exception.TerminalOffException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnrecognizedEntryException;
 import prr.core.terminal.BasicTerminal;
 import prr.core.terminal.FancyTerminal;
 import prr.core.terminal.Terminal;
+import prr.core.terminal.TerminalMode;
 
 /**
  * Class Store implements a store.
@@ -192,8 +195,15 @@ public class Network implements Serializable {
   }
 
 
-  public void sendTextCommunication(Terminal origin, String receiverId, String msg) {
+  public void sendTextCommunication(Terminal origin, String receiverId, String msg) throws TerminalException{
+    if (!_terminals.containsKey(receiverId))
+      throw new InvalidTerminalException(receiverId);
 
+    Terminal receiver = _terminals.get(receiverId);
+    if (receiver.getMode() == TerminalMode.OFF) 
+      throw new TerminalOffException(receiverId);
+    
+    origin.makeSMS(receiver, msg);
   }
 
 
