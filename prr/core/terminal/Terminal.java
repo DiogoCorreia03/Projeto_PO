@@ -151,7 +151,7 @@ abstract public class Terminal implements Serializable {
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
   public boolean canStartCommunication() {
-    if (_mode == TerminalMode.IDLE)
+    if (_mode == TerminalMode.IDLE || _mode == TerminalMode.SILENCE)
       return true;
     return false;
   }
