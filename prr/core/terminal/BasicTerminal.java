@@ -1,5 +1,6 @@
-package prr.core;
+package prr.core.terminal;
 
+import prr.core.client.Client;
 import prr.core.exception.DuplicateTerminalException;
 
 public class BasicTerminal extends Terminal{
@@ -12,7 +13,7 @@ public class BasicTerminal extends Terminal{
 
   }
 
-  public void acceptVideoCall(Terminal origin) {
+  protected void acceptVideoCall(Terminal origin) {
 
   }
 

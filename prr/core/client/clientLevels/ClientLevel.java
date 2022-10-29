@@ -1,8 +1,8 @@
-package prr.core.ClientLevels;
+package prr.core.client.clientLevels;
 
 public interface ClientLevel {
 
-  public double priceSMS(String msg);
+  public double priceSMS(int s);
   
   public double priceVoice(int d);
 

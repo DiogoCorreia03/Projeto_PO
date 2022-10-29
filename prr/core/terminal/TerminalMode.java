@@ -1,4 +1,4 @@
-package prr.core;
+package prr.core.terminal;
 
 public enum TerminalMode {
   BUSY,

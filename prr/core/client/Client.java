@@ -1,11 +1,12 @@
-package prr.core;
+package prr.core.client;
 
 import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
-import prr.core.ClientLevels.*;
+import prr.core.client.clientLevels.*;
 import prr.core.exception.DuplicateClientException;
+import prr.core.terminal.Terminal;
 
 public class Client implements Serializable{
 
