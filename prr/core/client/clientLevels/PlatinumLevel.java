@@ -1,6 +1,6 @@
 package prr.core.client.clientLevels;
 
-public class PlatinumLevel implements ClientLevel{
+public class PlatinumLevel implements ClientLevel {
 
     private static PlatinumLevel _platinumLevel;
 
@@ -26,5 +26,10 @@ public class PlatinumLevel implements ClientLevel{
             return new PlatinumLevel();
 
         return _platinumLevel;
+    }
+
+    @Override
+    public String toString() {
+        return "PLATINUM";
     }
 }

@@ -195,15 +195,16 @@ public class Network implements Serializable {
   }
 
 
+  public List<Communication> getComms() {
+    return _communications;
+  }
+
   public void sendTextCommunication(Terminal origin, String receiverId, String msg) throws TerminalException{
     if (!_terminals.containsKey(receiverId))
       throw new InvalidTerminalException(receiverId);
 
     Terminal receiver = _terminals.get(receiverId);
-    if (receiver.getMode() == TerminalMode.OFF) 
-      throw new TerminalOffException(receiverId);
-    
-    origin.makeSMS(receiver, msg);
+    _communications.add(origin.makeSMS(receiver, msg, _communications.size()+1));
   }
 
 
