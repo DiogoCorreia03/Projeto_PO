@@ -26,5 +26,10 @@ public class GoldLevel implements ClientLevel {
           _goldLevel = new GoldLevel();
     
         return _goldLevel;
-      }
+    }
+
+    @Override
+    public String toString() {
+        return "GOLD";
+    }
 }

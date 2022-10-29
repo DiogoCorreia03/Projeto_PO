@@ -8,7 +8,9 @@ import java.util.TreeMap;
 
 import prr.core.client.Client;
 import prr.core.communication.Communication;
+import prr.core.communication.TextCommunication;
 import prr.core.exception.DuplicateTerminalException;
+import prr.core.exception.TerminalOffException;
 import prr.core.exception.UnknownTerminalException;
 
 /**
@@ -108,12 +110,20 @@ abstract public class Terminal implements Serializable {
     return joined;
   }
 
-  public void makeSMS(Terminal receiver, String message) {
-
+  public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException{
+    Communication textComm = receiver.acceptSMS(id, this, message);
+    _madeCommunications.add(textComm);
+    return textComm;
   }
 
-  protected void acceptSMS(Terminal origin) {
+  protected Communication acceptSMS(int id, Terminal origin, String msg) throws TerminalOffException{
+    if (_mode == TerminalMode.OFF)
+      throw new TerminalOffException(_id);
+      //FIXME adicionar mandar/criar notificacao
 
+    Communication textComm = new TextCommunication(id, origin, this, msg);
+    _receivedCommunications.add(textComm);
+    return textComm;
   }
 
   public void makeVoiceCall(Terminal receiver) {

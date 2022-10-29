@@ -22,29 +22,32 @@ public abstract class Communication implements Serializable{
 
   private Terminal _receiver;
 
-  public Communication(int id) {
+  public Communication(int id, Terminal origin, Terminal receiver) {
     _id = id;
+    _origin = origin;
+    _receiver = receiver;
     //FIXME incompleto?
   }
 
   public void makeSMS(Terminal receiver, String msg) {
-
+    //FIXME pq?
   }
 
   protected void acceptSMS(Terminal origin) {
+    //FIXME pq?
 
   }
 
   public void makeVoiceCall(Terminal receiver) {
-
+    //FIXME pq?
   }
 
   protected void acceptVoiceCall(Terminal origin) {
-
+    //FIXME pq?
   }
 
   public String toString() {
-    return null;
+    return "TEXT|" + _id +"|"+ _origin.getId() +"|"+ _receiver.getId() +"|0|"+ _cost +"|"+ _isOngoing;
   }
 
   protected abstract double computeCost(ClientLevel level);
