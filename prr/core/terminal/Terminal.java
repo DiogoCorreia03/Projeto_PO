@@ -31,7 +31,11 @@ abstract public class Terminal implements Serializable {
 
   private Map<String, Terminal> _friends = new TreeMap<>();
 
-  private List<Communication> _communications = new ArrayList<>();
+  private List<Communication> _receivedCommunications = new ArrayList<>(); //mudar para array de inteiros correspodentes ao id?
+
+  private List<Communication> _madeCommunications = new ArrayList<>(); //mudar para array de inteiros correspodentes ao id?
+
+  private Communication _ongoingCommunication;
 
   public Terminal(String id, Client owner) throws DuplicateTerminalException{
     _id = id;
@@ -91,7 +95,7 @@ abstract public class Terminal implements Serializable {
   }
 
   public boolean isActiveTerminal() {
-    if (_communications.size() == 0)
+    if (_receivedCommunications.size() == 0 && _madeCommunications.size() == 0)
       return false;
     return true;
   }

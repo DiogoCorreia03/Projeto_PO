@@ -18,8 +18,13 @@ public abstract class Communication implements Serializable{
 
   boolean _isOngoing;
 
+  private Terminal _origin;
+
+  private Terminal _receiver;
+
   public Communication(int id) {
-    //FIXME incompleto
+    _id = id;
+    //FIXME incompleto?
   }
 
   public void makeSMS(Terminal receiver, String msg) {
