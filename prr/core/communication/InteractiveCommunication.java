@@ -8,10 +8,14 @@ public abstract class InteractiveCommunication extends Communication{
 
   public InteractiveCommunication(int id, Terminal origin, Terminal receiver) {
     super(id, origin, receiver);
-    //FIXME duracao é dada logo q uma comunicao é feita ou so mais tarde?
   }
 
   protected int getSize() {
     return _duration;
+  }
+
+  @Override
+  public String toString() {
+    return super.toString();
   }
 }
