@@ -37,6 +37,10 @@ public abstract class Communication implements Serializable{
     return _cost;
   }
 
+  public boolean isOrigin(String key) {
+    return key.equals(_origin.getId());
+  }
+
   @Override
   public String toString() {
     return _id +"|"+ _origin.getId() +"|"+ _receiver.getId() +"|"+ getSize() +"|"+ Math.round(_cost) +"|"+ (_isOngoing?"ONGOING":"FINISHED");

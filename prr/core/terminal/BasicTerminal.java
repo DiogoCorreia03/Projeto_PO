@@ -3,6 +3,8 @@ package prr.core.terminal;
 import prr.core.client.Client;
 import prr.core.communication.Communication;
 import prr.core.exception.DuplicateTerminalException;
+import prr.core.exception.UnsupportedAtDestinationException;
+import prr.core.exception.UnsupportedAtOriginException;
 
 public class BasicTerminal extends Terminal{
 
@@ -10,12 +12,12 @@ public class BasicTerminal extends Terminal{
     super(id, owner);
   }
 
-  public Communication makeVideoCall(Terminal receiver, int id) {
-    return null;
+  public Communication makeVideoCall(Terminal receiver, int id) throws UnsupportedAtOriginException {
+    throw new UnsupportedAtOriginException(getId(), "VIDEO");
   }
 
-  protected Communication acceptVideoCall(Terminal origin) {
-    return null;
+  protected Communication acceptVideoCall(Terminal origin) throws UnsupportedAtDestinationException{
+    throw new UnsupportedAtDestinationException(getId(), "VIDEO");
   }
 
   public String toString() {

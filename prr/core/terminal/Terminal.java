@@ -17,6 +17,8 @@ import prr.core.exception.TerminalException;
 import prr.core.exception.TerminalOffException;
 import prr.core.exception.TerminalSilenceException;
 import prr.core.exception.UnknownTerminalException;
+import prr.core.exception.UnsupportedAtDestinationException;
+import prr.core.exception.UnsupportedAtOriginException;
 
 /**
  * Abstract terminal.
@@ -155,13 +157,13 @@ abstract public class Terminal implements Serializable {
     return voiceComm;
   }
 
-  public abstract Communication makeVideoCall(Terminal receiver, int id);
+  public abstract Communication makeVideoCall(Terminal receiver, int id) throws UnsupportedAtOriginException;
 
-  protected abstract Communication acceptVideoCall(Terminal origin);
+  protected abstract Communication acceptVideoCall(Terminal origin) throws UnsupportedAtDestinationException;
 
 
   public void endOnGoingCommunication(int size) {
-
+    //FIXME como alterar valor do custo uma e uma só vez
   }
 
 
@@ -172,7 +174,7 @@ abstract public class Terminal implements Serializable {
    *          it was the originator of this communication.
    **/
   public boolean canEndCurrentCommunication() {
-    if (_mode == TerminalMode.BUSY /*FIXME verificar q é quem comecou a comm */)
+    if (_mode == TerminalMode.BUSY && _ongoingCommunication.isOrigin(_id))
       return true;
     return false;
   }
