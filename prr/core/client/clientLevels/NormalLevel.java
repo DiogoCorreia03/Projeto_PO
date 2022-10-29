@@ -1,4 +1,4 @@
-package prr.core.ClientLevels;
+package prr.core.client.clientLevels;
 
 public class NormalLevel implements ClientLevel{
 
@@ -8,13 +8,13 @@ public class NormalLevel implements ClientLevel{
     //FIXME é preciso este construtor?
   }
   
-  public double priceSMS(String msg) {
-    if (msg.length() < 50)
+  public double priceSMS(int s) {
+    if (s < 50)
       return 10;
-    else if (msg.length() < 100)
+    else if (s < 100)
       return 16;
     else
-      return 2*msg.length();
+      return 2*s;
   }
 
   public double priceVoice(int d) {

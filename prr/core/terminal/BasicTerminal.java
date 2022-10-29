@@ -1,10 +1,11 @@
-package prr.core;
+package prr.core.terminal;
 
+import prr.core.client.Client;
 import prr.core.exception.DuplicateTerminalException;
 
-public class FancyTerminal extends Terminal{
+public class BasicTerminal extends Terminal{
 
-  public FancyTerminal(String id, Client owner) throws DuplicateTerminalException{
+  public BasicTerminal(String id, Client owner) throws DuplicateTerminalException{
     super(id, owner);
   }
 
@@ -17,6 +18,6 @@ public class FancyTerminal extends Terminal{
   }
 
   public String toString() {
-    return "FANCY|" + super.toString(); 
+    return "BASIC|" + super.toString(); 
   }
 }

@@ -1,4 +1,4 @@
-package prr.core;
+package prr.core.terminal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import prr.core.client.Client;
+import prr.core.communication.Communication;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.UnknownTerminalException;
 

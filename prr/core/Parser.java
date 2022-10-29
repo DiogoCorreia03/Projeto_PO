@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 
 
 import prr.core.exception.UnrecognizedEntryException;
+import prr.core.terminal.Terminal;
 import prr.core.exception.UnknownClientException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.DuplicateClientException;

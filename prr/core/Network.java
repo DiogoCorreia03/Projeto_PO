@@ -7,12 +7,16 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.io.IOException;
 
+import prr.core.client.Client;
 import prr.core.exception.DuplicateClientException;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.UnknownClientException;
 import prr.core.exception.InvalidTerminalException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnrecognizedEntryException;
+import prr.core.terminal.BasicTerminal;
+import prr.core.terminal.FancyTerminal;
+import prr.core.terminal.Terminal;
 
 /**
  * Class Store implements a store.
