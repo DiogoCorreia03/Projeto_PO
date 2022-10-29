@@ -7,9 +7,10 @@ public class TextCommunication extends Communication{
   
   private String _message;
 
-  public TextCommunication(int id, Terminal origin, Terminal receiver, String msg) {
+  public TextCommunication(int id, Terminal origin, Terminal receiver, String msg, ClientLevel level) {
     super(id, origin, receiver);
     _message = msg;
+    _cost = computeCost(level);
   }
 
   protected double computeCost(ClientLevel level) {
@@ -18,5 +19,10 @@ public class TextCommunication extends Communication{
 
   protected int getSize() {
     return _message.length();
+  }
+
+  @Override
+  public String toString() {
+    return "TEXT|" + super.toString();
   }
 }
