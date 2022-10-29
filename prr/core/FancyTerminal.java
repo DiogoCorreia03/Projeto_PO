@@ -12,7 +12,7 @@ public class FancyTerminal extends Terminal{
 
   }
 
-  public void acceptVideoCall(Terminal origin) {
+  protected void acceptVideoCall(Terminal origin) {
 
   }
 

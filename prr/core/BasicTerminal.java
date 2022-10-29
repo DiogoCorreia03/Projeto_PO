@@ -12,7 +12,7 @@ public class BasicTerminal extends Terminal{
 
   }
 
-  public void acceptVideoCall(Terminal origin) {
+  protected void acceptVideoCall(Terminal origin) {
 
   }
 

@@ -106,7 +106,7 @@ abstract public class Terminal implements Serializable {
 
   }
 
-  void acceptSMS(Terminal origin) {
+  protected void acceptSMS(Terminal origin) {
 
   }
 
@@ -114,13 +114,13 @@ abstract public class Terminal implements Serializable {
 
   }
 
-  void acceptVoiceCall(Terminal origin) {
+   protected void acceptVoiceCall(Terminal origin) {
 
   }
 
   public abstract void makeVideoCall(Terminal receiver);
 
-  abstract void acceptVideoCall(Terminal origin);
+  protected abstract void acceptVideoCall(Terminal origin);
 
   public void endOnGoingCommunication(int size) {
 
