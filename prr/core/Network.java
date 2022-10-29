@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import java.io.IOException;
 
 import prr.core.client.Client;
+import prr.core.communication.Communication;
 import prr.core.exception.DuplicateClientException;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.UnknownClientException;
@@ -36,6 +37,8 @@ public class Network implements Serializable {
 
   /** Terminals of the Network. */
   private Map<String, Terminal> _terminals = new TreeMap<>();
+
+  private List<Communication> _communications = new ArrayList<>();
 
 
   /**
