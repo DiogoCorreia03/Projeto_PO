@@ -14,6 +14,8 @@ class DoStartInteractiveCommunication extends TerminalCommand {
 
   DoStartInteractiveCommunication(Network context, Terminal terminal) {
     super(Label.START_INTERACTIVE_COMMUNICATION, context, terminal, receiver -> receiver.canStartCommunication());
+    addStringField("key", Message.terminalKey());
+    addOptionField("type", Message.commType(), "VOICE", "VIDEO");
   }
   
   @Override

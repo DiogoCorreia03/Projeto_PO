@@ -12,6 +12,7 @@ class DoPerformPayment extends TerminalCommand {
 
   DoPerformPayment(Network context, Terminal terminal) {
     super(Label.PERFORM_PAYMENT, context, terminal);
+    addIntegerField("key", Message.terminalKey());
     //FIXME add command fields
   }
   
