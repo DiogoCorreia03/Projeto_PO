@@ -29,25 +29,17 @@ public abstract class Communication implements Serializable{
     //FIXME incompleto?
   }
 
-  public void makeSMS(Terminal receiver, String msg) {
-    //FIXME pq?
+  public boolean getPaymentStatus() {
+    return _isPaid;
   }
 
-  protected void acceptSMS(Terminal origin) {
-    //FIXME pq?
-
+  public double getCost() {
+    return _cost;
   }
 
-  public void makeVoiceCall(Terminal receiver) {
-    //FIXME pq?
-  }
-
-  protected void acceptVoiceCall(Terminal origin) {
-    //FIXME pq?
-  }
-
+  @Override
   public String toString() {
-    return "TEXT|" + _id +"|"+ _origin.getId() +"|"+ _receiver.getId() +"|0|"+ _cost +"|"+ _isOngoing;
+    return _id +"|"+ _origin.getId() +"|"+ _receiver.getId() +"|"+ getSize() +"|"+ Math.round(_cost) +"|"+ (_isOngoing?"ONGOING":"FINISHED");
   }
 
   protected abstract double computeCost(ClientLevel level);

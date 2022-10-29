@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import prr.core.client.Client;
+import prr.core.client.clientLevels.ClientLevel;
 import prr.core.communication.Communication;
 import prr.core.communication.TextCommunication;
 import prr.core.exception.DuplicateTerminalException;
@@ -111,17 +112,18 @@ abstract public class Terminal implements Serializable {
   }
 
   public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException{
-    Communication textComm = receiver.acceptSMS(id, this, message);
+    Communication textComm = receiver.acceptSMS(id, this, message, _owner.getClientLevel());
     _madeCommunications.add(textComm);
+    _debt += textComm.getCost();
     return textComm;
   }
 
-  protected Communication acceptSMS(int id, Terminal origin, String msg) throws TerminalOffException{
+  protected Communication acceptSMS(int id, Terminal origin, String msg, ClientLevel level) throws TerminalOffException{
     if (_mode == TerminalMode.OFF)
       throw new TerminalOffException(_id);
       //FIXME adicionar mandar/criar notificacao
 
-    Communication textComm = new TextCommunication(id, origin, this, msg);
+    Communication textComm = new TextCommunication(id, origin, this, msg, level);
     _receivedCommunications.add(textComm);
     return textComm;
   }

@@ -195,7 +195,7 @@ public class Network implements Serializable {
   }
 
 
-  public List<Communication> getComms() {
+  public List<Communication> getAllComms() {
     return _communications;
   }
 
