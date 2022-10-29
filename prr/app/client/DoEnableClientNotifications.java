@@ -1,6 +1,7 @@
 package prr.app.client;
 
 import prr.core.Network;
+import prr.core.exception.UnknownClientException;
 import prr.app.exception.UnknownClientKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -19,6 +20,15 @@ class DoEnableClientNotifications extends Command<Network> {
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    try {
+      String key = stringField("key");
+      if (_receiver.showClient(key).getNotificationPreference())
+        _display.popup(Message.clientNotificationsAlreadyEnabled());
+      
+      _receiver.showClient(key).enableNotifications();
+    }
+    catch (UnknownClientException e) {
+      throw new UnknownClientKeyException(e.getKey());
+    }
   }
 }

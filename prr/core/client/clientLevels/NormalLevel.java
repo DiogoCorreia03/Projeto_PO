@@ -31,5 +31,4 @@ public class NormalLevel implements ClientLevel{
 
     return _normalLevel;
   }
-
 }
