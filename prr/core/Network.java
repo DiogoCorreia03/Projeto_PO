@@ -244,12 +244,12 @@ public class Network implements Serializable {
   }
 
 
-  public List<Terminal> showTerminalsWithPositiveBalance() {
-    List<Terminal> temp = new ArrayList<>();
+  public List<String> showTerminalsWithPositiveBalance() {
+    List<String> temp = new ArrayList<>();
     
     for (Terminal t : _terminals.values()) {
       if (t.getPayments() > t.getDebt())
-        temp.add(t);
+        temp.add(t.toString());
     }
 
     return temp;
