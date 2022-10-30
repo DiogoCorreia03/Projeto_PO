@@ -5,7 +5,6 @@ import prr.core.exception.UnknownClientException;
 import prr.app.exception.UnknownClientKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Disable client notifications.
@@ -15,17 +14,14 @@ class DoDisableClientNotifications extends Command<Network> {
   DoDisableClientNotifications(Network receiver) {
     super(Label.DISABLE_CLIENT_NOTIFICATIONS, receiver);
     addStringField("key",Message.key());
-    //FIXME add command fields
   }
   
   @Override
   protected final void execute() throws CommandException {
     try {
       String key = stringField("key");
-      if (!_receiver.showClient(key).getNotificationPreference())
+      if (!_receiver.disableClientNotifications(key))
         _display.popup(Message.clientNotificationsAlreadyDisabled());
-      
-      _receiver.showClient(key).disableNotifications();
     }
     catch (UnknownClientException e) {
       throw new UnknownClientKeyException(e.getKey());
