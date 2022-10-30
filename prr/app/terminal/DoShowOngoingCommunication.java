@@ -3,7 +3,6 @@ package prr.app.terminal;
 import prr.core.Network;
 import prr.core.terminal.Terminal;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Command for showing the ongoing communication.
