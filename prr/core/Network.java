@@ -133,22 +133,6 @@ public class Network implements Serializable {
     return temp;
   }
 
-  public double showGlobalPayments() {
-    double sum_payments = 0;
-    for (Client c : _clients.values())
-        sum_payments += c.getPayments();
-
-    return sum_payments;
-  }
-
-  public double showGlobalDebts() {
-    double sum_debts = 0;
-    for (Client c : _clients.values())
-        sum_debts += c.getDebts();
-
-    return sum_debts;
-  }
-
   /**
    * Register a Terminal in the Network.
    * Receives all the attributes needed to register a Terminal, verifies them and
@@ -299,6 +283,22 @@ public class Network implements Serializable {
       case "VIDEO" -> interactiveComm = origin.makeVideoCall(receiver, _communications.size()+1);
     }
     _communications.add(interactiveComm);
+  }
+
+  public double showGlobalPayments() {
+    double sum_payments = 0;
+    for (Client c : _clients.values())
+        sum_payments += c.getPayments();
+
+    return sum_payments;
+  }
+
+  public double showGlobalDebts() {
+    double sum_debts = 0;
+    for (Client c : _clients.values())
+        sum_debts += c.getDebts();
+
+    return sum_debts;
   }
 
   /**
