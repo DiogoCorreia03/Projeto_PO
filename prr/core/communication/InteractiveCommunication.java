@@ -7,7 +7,7 @@ public abstract class InteractiveCommunication extends Communication{
   private int _duration;
 
   public InteractiveCommunication(int id, Terminal origin, Terminal receiver) {
-    super(id, origin, receiver);
+    super(id, origin, receiver, true);
   }
 
   protected int getSize() {

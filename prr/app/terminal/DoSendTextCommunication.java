@@ -6,7 +6,6 @@ import prr.core.terminal.Terminal;
 import prr.app.exception.UnknownTerminalKeyException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Command for sending a text communication.
@@ -23,7 +22,6 @@ class DoSendTextCommunication extends TerminalCommand {
   protected final void execute() throws CommandException {
     try {
       _network.sendTextCommunication(_receiver, stringField("key"), stringField("message"));
-      System.out.println("test");
     }
     catch (TerminalException e) {
       System.out.println("erro"); //FIXME fix nas exceptions

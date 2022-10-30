@@ -16,7 +16,7 @@ public class BasicTerminal extends Terminal{
     throw new UnsupportedAtOriginException(getId(), "VIDEO");
   }
 
-  protected Communication acceptVideoCall(Terminal origin) throws UnsupportedAtDestinationException{
+  protected Communication acceptVideoCall(int id, Terminal origin) throws UnsupportedAtDestinationException{
     throw new UnsupportedAtDestinationException(getId(), "VIDEO");
   }
 

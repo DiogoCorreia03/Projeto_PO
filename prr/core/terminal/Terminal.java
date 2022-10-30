@@ -17,8 +17,6 @@ import prr.core.exception.TerminalException;
 import prr.core.exception.TerminalOffException;
 import prr.core.exception.TerminalSilenceException;
 import prr.core.exception.UnknownTerminalException;
-import prr.core.exception.UnsupportedAtDestinationException;
-import prr.core.exception.UnsupportedAtOriginException;
 
 /**
  * Abstract terminal.
@@ -40,9 +38,9 @@ abstract public class Terminal implements Serializable {
 
   private Map<String, Terminal> _friends = new TreeMap<>();
 
-  private List<Communication> _receivedCommunications = new ArrayList<>(); //mudar para array de inteiros correspodentes ao id?
+  private List<Communication> _receivedCommunications = new ArrayList<>();
 
-  private List<Communication> _madeCommunications = new ArrayList<>(); //mudar para array de inteiros correspodentes ao id?
+  private List<Communication> _madeCommunications = new ArrayList<>();
 
   private Communication _ongoingCommunication;
 
@@ -91,6 +89,22 @@ abstract public class Terminal implements Serializable {
       return false;
     _mode = TerminalMode.SILENCE;
     return true;
+  }
+
+  protected void setBusy() {
+    _mode = TerminalMode.BUSY;
+  }
+
+  protected void setOngoingCommunication(Communication comm) {
+    _ongoingCommunication = comm;
+  }
+
+  protected void addMadeCommunication(Communication comm) {
+    _madeCommunications.add(comm);
+  }
+
+  protected void addReceivedCommunication(Communication comm) {
+    _receivedCommunications.add(comm);
   }
 
   public void addTerminalFriend(Terminal friend) throws UnknownTerminalException {
@@ -157,9 +171,9 @@ abstract public class Terminal implements Serializable {
     return voiceComm;
   }
 
-  public abstract Communication makeVideoCall(Terminal receiver, int id) throws UnsupportedAtOriginException;
+  public abstract Communication makeVideoCall(Terminal receiver, int id) throws TerminalException;
 
-  protected abstract Communication acceptVideoCall(Terminal origin) throws UnsupportedAtDestinationException;
+  protected abstract Communication acceptVideoCall(int id, Terminal origin) throws TerminalException;
 
 
   public void endOnGoingCommunication(int size) {

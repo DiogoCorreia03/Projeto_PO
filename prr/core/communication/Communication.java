@@ -29,6 +29,14 @@ public abstract class Communication implements Serializable{
     //FIXME incompleto?
   }
 
+  public Communication(int id, Terminal origin, Terminal receiver, boolean state) {
+    _id = id;
+    _origin = origin;
+    _receiver = receiver;
+    _isOngoing = state;
+    //FIXME incompleto?
+  }
+
   public boolean getPaymentStatus() {
     return _isPaid;
   }
