@@ -1,6 +1,7 @@
 package prr.app.terminal;
 
 import prr.core.Network;
+import prr.core.exception.TerminalException;
 import prr.core.terminal.Terminal;
 import prr.app.exception.UnknownTerminalKeyException;
 import pt.tecnico.uilib.forms.Form;
@@ -20,6 +21,11 @@ class DoStartInteractiveCommunication extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    try {
+      _network.startInteractiveCommunication(_receiver, stringField("key"), stringField("type"));
+    }
+    catch (TerminalException e) { //FIXME exceptions
+      System.out.println("erro");
+    }
   }
 }

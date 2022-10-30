@@ -12,4 +12,9 @@ public class VideoCommunication extends InteractiveCommunication{
   protected double computeCost(ClientLevel level) {
     return level.priceVideo(getSize());
   }
+
+  @Override
+  public String toString() {
+    return "VIDEO|" + super.toString();
+  }
 }
