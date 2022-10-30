@@ -45,8 +45,8 @@ public abstract class Communication implements Serializable{
 
   protected void end() {
     _isOngoing = false;
-    _origin.turnOn();
-    _receiver.turnOn(); //FIXME pode ir para silent
+    _origin.setPreviousMode();
+    _receiver.setPreviousMode();
   }
 
   protected void setCost(double cost) {
