@@ -13,11 +13,14 @@ import prr.core.exception.DuplicateClientException;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.UnknownClientException;
 import prr.core.exception.InvalidTerminalException;
+import prr.core.exception.TerminalException;
+import prr.core.exception.TerminalOffException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnrecognizedEntryException;
 import prr.core.terminal.BasicTerminal;
 import prr.core.terminal.FancyTerminal;
 import prr.core.terminal.Terminal;
+import prr.core.terminal.TerminalMode;
 
 /**
  * Class Store implements a store.
@@ -224,13 +227,30 @@ public class Network implements Serializable {
     return temp;
   }
 
-  public void sendTextCommunication(Terminal origin, String receiverId, String msg) {
+  public List<Communication> getAllComms() {
+    return _communications;
+  }
 
+  public void sendTextCommunication(Terminal origin, String receiverId, String msg) throws TerminalException{
+    if (!_terminals.containsKey(receiverId))
+      throw new InvalidTerminalException(receiverId);
+
+    Terminal receiver = _terminals.get(receiverId);
+    _communications.add(origin.makeSMS(receiver, msg, _communications.size()+1));
   }
 
 
-  public void startInteractiveCommunication(Terminal origin, String receiverId, String type) {
+  public void startInteractiveCommunication(Terminal origin, String receiverId, String type) throws TerminalException{
+    if (!_terminals.containsKey(receiverId))
+      throw new InvalidTerminalException(receiverId);
 
+    Terminal receiver = _terminals.get(receiverId);
+    Communication interactiveComm = null;
+    switch (type) {
+      case "VOICE" -> interactiveComm = origin.makeVoiceCall(receiver, _communications.size()+1);
+      case "VIDEO" -> interactiveComm = origin.makeVideoCall(receiver, _communications.size()+1);
+    }
+    _communications.add(interactiveComm);
   }
 
   /**

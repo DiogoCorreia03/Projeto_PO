@@ -1,14 +1,21 @@
 package prr.core.communication;
 
+import prr.core.terminal.Terminal;
+
 public abstract class InteractiveCommunication extends Communication{
+  
   private int _duration;
 
-  public InteractiveCommunication(int id) {
-    super(id);
-    //FIXME duracao é dada logo q uma comunicao é feita ou so mais tarde?
+  public InteractiveCommunication(int id, Terminal origin, Terminal receiver) {
+    super(id, origin, receiver);
   }
 
   protected int getSize() {
     return _duration;
+  }
+
+  @Override
+  public String toString() {
+    return super.toString();
   }
 }

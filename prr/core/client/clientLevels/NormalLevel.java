@@ -1,6 +1,6 @@
 package prr.core.client.clientLevels;
 
-public class NormalLevel implements ClientLevel{
+public class NormalLevel implements ClientLevel {
 
   private static NormalLevel _normalLevel;
 
@@ -31,4 +31,9 @@ public class NormalLevel implements ClientLevel{
 
     return _normalLevel;
   }
+
+  @Override
+    public String toString() {
+        return "NORMAL";
+    }
 }
