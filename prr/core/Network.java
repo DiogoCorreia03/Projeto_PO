@@ -14,13 +14,11 @@ import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.UnknownClientException;
 import prr.core.exception.InvalidTerminalException;
 import prr.core.exception.TerminalException;
-import prr.core.exception.TerminalOffException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnrecognizedEntryException;
 import prr.core.terminal.BasicTerminal;
 import prr.core.terminal.FancyTerminal;
 import prr.core.terminal.Terminal;
-import prr.core.terminal.TerminalMode;
 
 /**
  * Class Store implements a store.
