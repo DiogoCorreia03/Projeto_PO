@@ -90,4 +90,20 @@ public class Client implements Serializable{
            +"|"+ (_receiveNotifications?"YES":"NO") +"|"+ _terminals.size() 
            +"|"+ Math.round(getPayments()) +"|"+ Math.round(getDebts());
   }
+
+  public boolean enableNotifications() {
+    if (_receiveNotifications)
+      return false;
+    
+    _receiveNotifications = true;
+    return true;
+  }
+
+  public boolean disableNotifications() {
+    if (!_receiveNotifications)
+      return false;
+    
+    _receiveNotifications = false;
+    return true;
+  }
 }

@@ -36,5 +36,4 @@ public class NormalLevel implements ClientLevel {
     public String toString() {
         return "NORMAL";
     }
-
 }

@@ -194,6 +194,38 @@ public class Network implements Serializable {
     return list;
   }
 
+  public List<Client> showClientsWithDebts() {
+    List<Client> temp = new ArrayList<>();
+    
+    for (Client c : _clients.values()) {
+      if (c.getDebts() > 0)
+        temp.add(c);
+    }
+
+    return temp;
+  }
+
+  public List<Client> showClientsWithoutDebts() {
+    List<Client> temp = new ArrayList<>();
+    
+    for (Client c : _clients.values()) {
+      if (c.getDebts() == 0)
+        temp.add(c);
+    }
+
+    return temp;
+  }
+
+  public List<Terminal> showTerminalsWithPositiveBalance() {
+    List<Terminal> temp = new ArrayList<>();
+    
+    for (Terminal t : _terminals.values()) {
+      if (t.getPayments() > t.getDebt())
+        temp.add(t);
+    }
+
+    return temp;
+  }
 
   public List<Communication> getAllComms() {
     return _communications;
