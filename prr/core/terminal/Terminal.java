@@ -34,6 +34,8 @@ abstract public class Terminal implements Serializable {
 
   private TerminalMode _mode;
 
+  private TerminalMode _previous;
+
   private Client _owner;
 
   private Map<String, Terminal> _friends = new TreeMap<>();
@@ -68,6 +70,10 @@ abstract public class Terminal implements Serializable {
 
   public double getDebt() {
     return _debt;
+  }
+
+  public void setPreviousMode() {
+    _mode = _previous;
   }
 
   public boolean turnOff() {
@@ -151,6 +157,7 @@ abstract public class Terminal implements Serializable {
   public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalException {
     Communication voiceComm = receiver.acceptVoiceCall(id, this);
     _ongoingCommunication = voiceComm;
+    _previous = _mode;
     _mode = TerminalMode.BUSY;
     _madeCommunications.add(voiceComm);
     return voiceComm;
@@ -166,6 +173,7 @@ abstract public class Terminal implements Serializable {
 
     Communication voiceComm = new VoiceCommunication(id, origin, this);
     _ongoingCommunication = voiceComm;
+    _previous = _mode;
     _mode = TerminalMode.BUSY;
     _receivedCommunications.add(voiceComm);
     return voiceComm;
