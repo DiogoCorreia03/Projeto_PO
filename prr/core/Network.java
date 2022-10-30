@@ -2,6 +2,8 @@ package prr.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -111,14 +113,23 @@ public class Network implements Serializable {
   }
 
   public List<String> showClientsWithDebts() { //FIXME ordenacao
-    List<String> temp = new ArrayList<>();
-    
+    List<Client> temp = new ArrayList<>();
+
     for (Client c : _clients.values()) {
       if (c.getDebts() > 0)
-        temp.add(c.toString());
+        temp.add(c);
+    }
+    
+    Collections.sort(temp, new DebtsComparator().reversed());
+    Collections.sort(temp, new EqualDebtsComparator());
+
+    List<String> ordered = new ArrayList<>();
+
+    for (Client c : temp) {
+      ordered.add(c.toString());
     }
 
-    return temp;
+    return ordered;
   }
 
   public List<String> showClientsWithoutDebts() {
@@ -130,6 +141,26 @@ public class Network implements Serializable {
     }
 
     return temp;
+  }
+
+  public double showGlobalPayments() {
+    double sum_payments = 0;
+
+    for (Client c : _clients.values()) {
+        sum_payments += c.getPayments();
+    }
+
+    return sum_payments;
+  }
+
+  public double showGlobalDebts() {
+    double sum_debts = 0;
+
+    for (Client c : _clients.values()) {
+        sum_debts += c.getDebts();
+    }
+
+    return sum_debts;
   }
 
   /**
