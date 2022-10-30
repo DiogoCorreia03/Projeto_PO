@@ -26,7 +26,6 @@ public abstract class Communication implements Serializable{
     _id = id;
     _origin = origin;
     _receiver = receiver;
-    //FIXME incompleto?
   }
 
   public Communication(int id, Terminal origin, Terminal receiver, boolean state) {
@@ -34,7 +33,6 @@ public abstract class Communication implements Serializable{
     _origin = origin;
     _receiver = receiver;
     _isOngoing = state;
-    //FIXME incompleto?
   }
 
   public boolean getPaymentStatus() {
@@ -45,6 +43,16 @@ public abstract class Communication implements Serializable{
     return _cost;
   }
 
+  protected void end() {
+    _isOngoing = false;
+    _origin.turnOn();
+    _receiver.turnOn(); //FIXME pode ir para silent
+  }
+
+  protected void setCost(double cost) {
+    _cost = cost;
+  }
+
   public boolean isOrigin(String key) {
     return key.equals(_origin.getId());
   }
@@ -53,6 +61,8 @@ public abstract class Communication implements Serializable{
   public String toString() {
     return _id +"|"+ _origin.getId() +"|"+ _receiver.getId() +"|"+ getSize() +"|"+ Math.round(_cost) +"|"+ (_isOngoing?"ONGOING":"FINISHED");
   }
+
+  public abstract double endCommunication(int size, ClientLevel level);
 
   protected abstract double computeCost(ClientLevel level);
 

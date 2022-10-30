@@ -177,7 +177,8 @@ abstract public class Terminal implements Serializable {
 
 
   public void endOnGoingCommunication(int size) {
-    //FIXME como alterar valor do custo uma e uma só vez
+    _debt += _ongoingCommunication.endCommunication(size, _owner.getClientLevel());
+    _ongoingCommunication = null;
   }
 
 
