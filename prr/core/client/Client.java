@@ -76,19 +76,8 @@ public class Client implements Serializable{
     return sum;
   }
 
-  public void setNotifications(boolean x) {
-    _receiveNotifications = x;
-  }
-
   public void addTerminal(Terminal terminal) {
     _terminals.put(terminal.getId(), terminal);
-  }  
-
-  public String toString() {
-    
-    return "CLIENT|"+_key +"|"+ _name +"|"+ _nif +"|"+ _level
-           +"|"+ (_receiveNotifications?"YES":"NO") +"|"+ _terminals.size() 
-           +"|"+ Math.round(getPayments()) +"|"+ Math.round(getDebts());
   }
 
   public boolean enableNotifications() {
@@ -105,5 +94,12 @@ public class Client implements Serializable{
     
     _receiveNotifications = false;
     return true;
+  }
+
+  public String toString() {
+    
+    return "CLIENT|"+_key +"|"+ _name +"|"+ _nif +"|"+ _level
+           +"|"+ (_receiveNotifications?"YES":"NO") +"|"+ _terminals.size() 
+           +"|"+ Math.round(getPayments()) +"|"+ Math.round(getDebts());
   }
 }

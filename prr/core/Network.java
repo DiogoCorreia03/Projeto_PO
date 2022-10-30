@@ -42,6 +42,14 @@ public class Network implements Serializable {
   private List<Communication> _communications = new ArrayList<>();
 
 
+  private Client getClient(String key) throws UnknownClientException {
+    String keyLower = key.toLowerCase();
+    if (!_clients.containsKey(keyLower))
+      throw new UnknownClientException(key);
+    return _clients.get(keyLower);
+  }
+
+
   /**
    * Register a Client in the Network.
    * Receives all the attributes needed to register a Client, verifies them and
@@ -61,25 +69,66 @@ public class Network implements Serializable {
   }
 
   /**
-   * Get a Client from it's Key.
+   * Show a Client from it's Key.
    * @param key Key of the Client.
-   * @return the Client associated with the given Key.
+   * @return the Client associated with the given Key formatted to a String.
    * @throws UnknownClientException Exception thrown when the given
    * Key isn't registered in the Network.
    */
-  public Client showClient(String key) throws UnknownClientException {
-    String keyLower = key.toLowerCase();
-    if (!_clients.containsKey(keyLower))
-      throw new UnknownClientException(key);
-    return _clients.get(keyLower);
+  public String showClient(String key) throws UnknownClientException {
+    return getClient(key).toString();
   }
 
   /**
    * Get a list of all the Client's in the Network.
-   * @return a list of all the Client's in the Network.
+   * @return a list of all the Client's in the Network formatted to a String.
    */
-  public List<Client> showAllClients() {
-    List<Client> temp = new ArrayList<>(_clients.values());
+  public List<String> showAllClients() {
+    List<String> temp = new ArrayList<>();
+    for (Client c: _clients.values())
+      temp.add(c.toString());
+    return temp;
+  }
+
+  public boolean enableClientNotifications(String key) throws UnknownClientException {
+    Client c = getClient(key);
+    return  c.enableNotifications();
+  }
+
+  public boolean disableClientNotifications(String key) throws UnknownClientException {
+    Client c = getClient(key);
+    return  c.disableNotifications();
+  }
+
+  public double getClientPayments(String key) throws UnknownClientException{
+    Client c = getClient(key);
+    return c.getPayments();
+  }
+
+  public double getClientDebts(String key) throws UnknownClientException{
+    Client c = getClient(key);
+    return c.getDebts();
+  }
+
+  public List<String> showClientsWithDebts() { //FIXME ordenacao
+    List<String> temp = new ArrayList<>();
+    
+    for (Client c : _clients.values()) {
+      if (c.getDebts() > 0)
+        temp.add(c.toString());
+    }
+
+    return temp;
+  }
+
+  public List<String> showClientsWithoutDebts() {
+    List<String> temp = new ArrayList<>();
+    
+    for (Client c : _clients.values()) {
+      if (c.getDebts() == 0)
+        temp.add(c.toString());
+    }
+
     return temp;
   }
 
@@ -139,8 +188,10 @@ public class Network implements Serializable {
    * Get a list of all the Terminals in the Network.
    * @return a list of all the Terminals in the Network.
    */
-  public List<Terminal> showAllTerminals() {
-    List<Terminal> temp = new ArrayList<>(_terminals.values());
+  public List<String> showAllTerminals() {
+    List<String> temp = new ArrayList<>();
+    for (Terminal t: _terminals.values())
+      temp.add(t.toString());
     return temp;
   }
 
@@ -183,36 +234,15 @@ public class Network implements Serializable {
    * they get added to the Array to be returned.
    * @return an Array of all the Terminals with no past Communications.
    */
-  public List<Terminal> getNoActivityTerminals() {
-    List<Terminal> list = new ArrayList<>();
+  public List<String> getNoActivityTerminals() {
+    List<String> list = new ArrayList<>();
     for (Terminal t: _terminals.values())
       if (!t.isActiveTerminal())
-        list.add(t);
+        list.add(t.toString());
 
     return list;
   }
 
-  public List<Client> showClientsWithDebts() {
-    List<Client> temp = new ArrayList<>();
-    
-    for (Client c : _clients.values()) {
-      if (c.getDebts() > 0)
-        temp.add(c);
-    }
-
-    return temp;
-  }
-
-  public List<Client> showClientsWithoutDebts() {
-    List<Client> temp = new ArrayList<>();
-    
-    for (Client c : _clients.values()) {
-      if (c.getDebts() == 0)
-        temp.add(c);
-    }
-
-    return temp;
-  }
 
   public List<Terminal> showTerminalsWithPositiveBalance() {
     List<Terminal> temp = new ArrayList<>();
@@ -225,8 +255,11 @@ public class Network implements Serializable {
     return temp;
   }
 
-  public List<Communication> getAllComms() {
-    return _communications;
+  public List<String> getAllComms() {
+    List<String> list = new ArrayList<>();
+    for (Communication c: _communications)
+      list.add(c.toString());
+    return list;
   }
 
   public void sendTextCommunication(Terminal origin, String receiverId, String msg) throws TerminalException{
