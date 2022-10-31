@@ -18,10 +18,10 @@ public class TextCommunication extends Communication{
   }
 
   protected double computeCost(ClientLevel level) {
-    return level.priceSMS(getSize());
+    return level.computeCost(this);
   }
 
-  protected int getSize() {
+  public int getSize() {
     return _message.length();
   }
 

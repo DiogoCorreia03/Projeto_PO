@@ -1,24 +1,27 @@
 package prr.core.client.clientLevels;
 
+import prr.core.communication.TextCommunication;
+import prr.core.communication.VideoCommunication;
+import prr.core.communication.VoiceCommunication;
+
 public class GoldLevel implements ClientLevel {
     
     private static GoldLevel _goldLevel;
 
     private GoldLevel(){}
 
-    public double priceSMS(int s) {
-        if (s < 100)
-            return 10;
-        else
-            return s * 2;
+    public double computeCost(TextCommunication comm) {
+        int size = comm.getSize();
+
+        return size<100?10:size*2;
     }
 
-    public double priceVoice(int d) {
-        return 10 * d;
+    public double computeCost(VoiceCommunication comm) {
+        return 10 * comm.getSize();
     }
 
-    public double priceVideo(int d) {
-        return 20 * d;
+    public double computeCost(VideoCommunication comm) {
+        return 20 * comm.getSize();
     }
 
     public static GoldLevel getInstance() {

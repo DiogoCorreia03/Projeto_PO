@@ -2,14 +2,18 @@ package prr.core.client.clientLevels;
 
 import java.io.Serializable;
 
+import prr.core.communication.TextCommunication;
+import prr.core.communication.VideoCommunication;
+import prr.core.communication.VoiceCommunication;
+
 public interface ClientLevel extends Serializable{
   static final long serialVersionUID = 202208091753L;
 
-  public double priceSMS(int s);
+  public double computeCost(TextCommunication comm);
   
-  public double priceVoice(int d);
+  public double computeCost(VoiceCommunication comm);
 
-  public double priceVideo(int d);
+  public double computeCost(VideoCommunication comm);
 
   @Override
   public String toString();
