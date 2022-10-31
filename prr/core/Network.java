@@ -264,18 +264,12 @@ public class Network implements Serializable {
   }
 
   public void sendTextCommunication(Terminal origin, String receiverId, String msg) throws TerminalException{
-    if (!_terminals.containsKey(receiverId))
-      throw new InvalidTerminalException(receiverId);
-
     Terminal receiver = _terminals.get(receiverId);
     _communications.add(origin.makeSMS(receiver, msg, _communications.size()+1));
   }
 
 
   public void startInteractiveCommunication(Terminal origin, String receiverId, String type) throws TerminalException{
-    if (!_terminals.containsKey(receiverId))
-      throw new InvalidTerminalException(receiverId);
-
     Terminal receiver = _terminals.get(receiverId);
     Communication interactiveComm = null;
     switch (type) {
