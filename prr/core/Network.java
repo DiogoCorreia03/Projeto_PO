@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import java.io.IOException;
 
 import prr.core.client.Client;
+import prr.core.client.DebtsComparator;
 import prr.core.communication.Communication;
 import prr.core.exception.DuplicateClientException;
 import prr.core.exception.DuplicateTerminalException;

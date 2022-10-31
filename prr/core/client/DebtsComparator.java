@@ -1,8 +1,6 @@
-package prr.core;
+package prr.core.client;
 
 import java.util.Comparator;
-
-import prr.core.client.Client;
 
 public class DebtsComparator implements Comparator<Client> {
     public int compare(Client c1, Client c2) {
