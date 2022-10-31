@@ -3,8 +3,8 @@ package prr.core.communication;
 import prr.core.client.clientLevels.ClientLevel;
 import prr.core.terminal.Terminal;
 
-public class TextCommunication extends Communication{
-  
+public class TextCommunication extends Communication {
+
   private String _message;
 
   public TextCommunication(int id, Terminal origin, Terminal receiver, String msg, ClientLevel level) {

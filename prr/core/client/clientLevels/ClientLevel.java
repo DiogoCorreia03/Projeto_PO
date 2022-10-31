@@ -14,7 +14,4 @@ public interface ClientLevel extends Serializable{
   public double computeCost(VoiceCommunication comm);
 
   public double computeCost(VideoCommunication comm);
-
-  @Override
-  public String toString();
 }
