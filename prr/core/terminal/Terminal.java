@@ -17,6 +17,11 @@ import prr.core.exception.TerminalException;
 import prr.core.exception.TerminalOffException;
 import prr.core.exception.TerminalSilenceException;
 import prr.core.exception.UnknownTerminalException;
+import prr.core.terminal.terminalMode.BusyMode;
+import prr.core.terminal.terminalMode.IdleMode;
+import prr.core.terminal.terminalMode.OffMode;
+import prr.core.terminal.terminalMode.SilenceMode;
+import prr.core.terminal.terminalMode.TerminalMode;
 
 /**
  * Abstract terminal.
@@ -49,7 +54,7 @@ abstract public class Terminal implements Serializable {
   public Terminal(String id, Client owner) throws DuplicateTerminalException{
     _id = id;
     _owner = owner;
-    _mode = TerminalMode.IDLE;
+    _mode = IdleMode.getInstance();
   }
 
   public String getId() {
@@ -72,44 +77,48 @@ abstract public class Terminal implements Serializable {
     return _debt;
   }
 
+  public void addDebt(double d) {
+    _debt += d;
+  }
+
   public void setPreviousMode() {
     _mode = _previous;
   }
 
   public boolean turnOff() {
-    if (_mode == TerminalMode.OFF)
+    if (_mode == OffMode.getInstance())
       return false;
-    _mode = TerminalMode.OFF;
+    _mode = OffMode.getInstance();
     return true;
   }
 
   public boolean turnOn() {
-    if (_mode == TerminalMode.IDLE)
+    if (_mode == IdleMode.getInstance())
       return false;
-    _mode = TerminalMode.IDLE;
+    _mode = IdleMode.getInstance();
     return true;
   }
 
   public boolean setOnSilent() {
-    if (_mode == TerminalMode.SILENCE)
+    if (_mode == SilenceMode.getInstance())
       return false;
-    _mode = TerminalMode.SILENCE;
+    _mode = SilenceMode.getInstance();
     return true;
   }
 
   protected void setBusy() {
-    _mode = TerminalMode.BUSY;
+    _mode = BusyMode.getInstance();
   }
 
-  protected void setOngoingCommunication(Communication comm) {
+  public void setOngoingCommunication(Communication comm) {
     _ongoingCommunication = comm;
   }
 
-  protected void addMadeCommunication(Communication comm) {
+  public void addMadeCommunication(Communication comm) {
     _madeCommunications.add(comm);
   }
 
-  protected void addReceivedCommunication(Communication comm) {
+  public void addReceivedCommunication(Communication comm) {
     _receivedCommunications.add(comm);
   }
 
@@ -136,13 +145,9 @@ abstract public class Terminal implements Serializable {
       joined = "|"+joined;
     return joined;
   }
-
-  public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException {
-    Communication textComm = receiver.acceptSMS(id, this, message, _owner.getClientLevel());
-    _madeCommunications.add(textComm);
-    _debt += textComm.getCost();
-    return textComm;
-  }
+ 
+  //public abstract Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException;
+    
 
   protected Communication acceptSMS(int id, Terminal origin, String msg, ClientLevel level) throws TerminalOffException {
     if (_mode == TerminalMode.OFF)
@@ -153,6 +158,8 @@ abstract public class Terminal implements Serializable {
     _receivedCommunications.add(textComm);
     return textComm;
   }
+
+  /*
 
   public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalException {
     Communication voiceComm = receiver.acceptVoiceCall(id, this);
@@ -182,7 +189,7 @@ abstract public class Terminal implements Serializable {
   public abstract Communication makeVideoCall(Terminal receiver, int id) throws TerminalException;
 
   protected abstract Communication acceptVideoCall(int id, Terminal origin) throws TerminalException;
-
+   */
 
   public void endOnGoingCommunication(int size) {
     _debt += _ongoingCommunication.endCommunication(size, _owner.getClientLevel());
@@ -197,7 +204,7 @@ abstract public class Terminal implements Serializable {
    *          it was the originator of this communication.
    **/
   public boolean canEndCurrentCommunication() {
-    if (_mode == TerminalMode.BUSY && _ongoingCommunication.isOrigin(_id))
+    if (_mode == BusyMode.getInstance() && _ongoingCommunication.isOrigin(_id))
       return true;
     return false;
   }
@@ -208,7 +215,7 @@ abstract public class Terminal implements Serializable {
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
   public boolean canStartCommunication() {
-    if (_mode == TerminalMode.IDLE || _mode == TerminalMode.SILENCE)
+    if (_mode == IdleMode.getInstance() || _mode == SilenceMode.getInstance())
       return true;
     return false;
   }

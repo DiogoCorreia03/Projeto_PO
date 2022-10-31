@@ -8,6 +8,10 @@ import prr.core.exception.TerminalBusyException;
 import prr.core.exception.TerminalException;
 import prr.core.exception.TerminalOffException;
 import prr.core.exception.TerminalSilenceException;
+import prr.core.terminal.terminalMode.BusyMode;
+import prr.core.terminal.terminalMode.OffMode;
+import prr.core.terminal.terminalMode.SilenceMode;
+import prr.core.terminal.terminalMode.TerminalMode;
 
 public class FancyTerminal extends Terminal{
 
@@ -15,6 +19,7 @@ public class FancyTerminal extends Terminal{
     super(id, owner);
   }
 
+  /* 
   public Communication makeVideoCall(Terminal receiver, int id) throws TerminalException{
     Communication videoComm = receiver.acceptVideoCall(id, this);
     setOngoingCommunication(videoComm);
@@ -24,11 +29,11 @@ public class FancyTerminal extends Terminal{
   }
 
   protected Communication acceptVideoCall(int id, Terminal origin) throws TerminalException{
-    if (getMode() == TerminalMode.OFF)
+    if (getMode() == OffMode.getInstance())
     throw new TerminalOffException(getId());
-  if (getMode() == TerminalMode.BUSY)
+  if (getMode() == BusyMode.getInstance())
     throw new TerminalBusyException(getId());
-  if (getMode() == TerminalMode.SILENCE)
+  if (getMode() == SilenceMode.getInstance())
     throw new TerminalSilenceException(getId());
 
   Communication voiceComm = new VideoCommunication(id, origin, this);
@@ -37,6 +42,8 @@ public class FancyTerminal extends Terminal{
   addReceivedCommunication(voiceComm);
   return voiceComm;
 }
+
+ */
 
   public String toString() {
     return "FANCY|" + super.toString();
