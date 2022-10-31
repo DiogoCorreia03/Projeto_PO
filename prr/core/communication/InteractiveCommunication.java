@@ -19,7 +19,7 @@ public abstract class InteractiveCommunication extends Communication{
     return cost;
   }
 
-  protected int getSize() {
+  public int getSize() {
     return _duration;
   }
 

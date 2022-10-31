@@ -1,28 +1,26 @@
 package prr.core.client.clientLevels;
 
+import prr.core.communication.TextCommunication;
+import prr.core.communication.VideoCommunication;
+import prr.core.communication.VoiceCommunication;
+
 public class NormalLevel implements ClientLevel {
 
   private static NormalLevel _normalLevel;
 
-  private NormalLevel() {
-    //FIXME é preciso este construtor?
-  }
+  private NormalLevel() {}
   
-  public double priceSMS(int s) {
-    if (s < 50)
-      return 10;
-    else if (s < 100)
-      return 16;
-    else
-      return 2*s;
+  public double computeCost(TextCommunication comm) {
+    int size = comm.getSize();
+    return size<50?10:(size<100?16:2*size);
   }
 
-  public double priceVoice(int d) {
-    return 20*d;
+  public double computeCost(VoiceCommunication comm) {
+    return 20*comm.getSize();
   }
 
-  public double priceVideo(int d) {
-    return 30*d;
+  public double computeCost(VideoCommunication comm) {
+    return 30*comm.getSize();
   }
 
   public static NormalLevel getInstance() {
