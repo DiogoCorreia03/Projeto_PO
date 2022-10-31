@@ -18,6 +18,6 @@ public class Notifications {
     }
 
     public String toString() {
-        return "" + _type + "|" + _terminal.getId();
+        return _type + "|" + _terminal.getId();
     }
 }
