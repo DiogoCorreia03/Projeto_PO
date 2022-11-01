@@ -9,7 +9,6 @@ import java.util.TreeMap;
 import prr.core.client.Client;
 import prr.core.client.clientLevels.ClientLevel;
 import prr.core.communication.Communication;
-import prr.core.communication.VoiceCommunication;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.TerminalException;
 import prr.core.exception.UnknownTerminalException;
