@@ -18,55 +18,48 @@ public abstract class TerminalMode implements Serializable {
     _terminal = terminal;
   }
 
-  public Terminal getTerminal() {
-    return _terminal;
-  }
-
   public Communication makeSMS(Terminal receiver, String message, int id, ClientLevel level) throws TerminalException {
-    Communication textComm = receiver.acceptSMS(_terminal, message, id, level);
-    _terminal.addMadeCommunication(textComm);
-    _terminal.addDebt(textComm.getCost());
-    return textComm;
+    try {
+      Communication textComm = receiver.acceptSMS(_terminal, message, id, level);
+      return textComm;
+    }
+    catch (TerminalException e) {
+      throw e;
+    }
   }
 
   public Communication acceptSMS(Terminal origin, String msg, int id, ClientLevel level) throws TerminalException {
     Communication textComm = new TextCommunication(id, origin, _terminal, msg, level);
-    _terminal.addReceivedCommunication(textComm);
     return textComm;
   }
 
   public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalException {
-    Communication voiceComm = receiver.acceptVoiceCall(_terminal, id);
-    _terminal.setOngoingCommunication(voiceComm);
-    _terminal.setPrevious(_terminal.getMode());
-    _terminal.setBusy();
-    _terminal.addMadeCommunication(voiceComm);
-    return voiceComm;
+    try {
+      Communication voiceComm = receiver.acceptVoiceCall(_terminal, id);
+      return voiceComm;
+    }
+    catch (TerminalException e) {
+      throw e;
+    }
   }
 
   public Communication acceptVoiceCall(Terminal origin, int id) throws TerminalException {
-    Communication voiceComm = new VoiceCommunication(origin, _terminal, id);
-    _terminal.setOngoingCommunication(voiceComm);
-    _terminal.setPrevious(_terminal.getMode());
-    _terminal.setBusy();
-    _terminal.addReceivedCommunication(voiceComm);
-    return voiceComm;
+      Communication voiceComm = new VoiceCommunication(origin, _terminal, id);
+      return voiceComm;
   }
 
   public Communication makeVideoCall(Terminal receiver, int id) throws TerminalException {
-    Communication videoComm = receiver.acceptVideoCall(_terminal, id);
-    _terminal.setOngoingCommunication(videoComm);
-    _terminal.setPrevious(_terminal.getMode());
-    _terminal.setBusy();
-    _terminal.addMadeCommunication(videoComm);
-    return videoComm;
+    try {
+      Communication videoComm = receiver.acceptVideoCall(_terminal, id);
+      return videoComm;
+    }
+    catch (TerminalException e) {
+      throw e;
+    }
   }
 
   public Communication acceptVideoCall(Terminal origin, int id) throws TerminalException {
     Communication videoComm = new VideoCommunication(origin, _terminal, id);
-    _terminal.setOngoingCommunication(videoComm);
-    _terminal.setBusy();
-    _terminal.addReceivedCommunication(videoComm);
     return videoComm;
   }
 }
