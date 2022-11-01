@@ -11,7 +11,6 @@ import prr.core.client.clientLevels.ClientLevel;
 import prr.core.communication.Communication;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.TerminalException;
-import prr.core.exception.TerminalOffException;
 import prr.core.exception.UnknownTerminalException;
 
 /**
@@ -52,11 +51,7 @@ abstract public class Terminal implements Serializable {
     return _id;
   }
 
-  public Client getOwner() {
-    return _owner;
-  }
-
-  public TerminalMode getMode() {
+  protected TerminalMode getMode() {
     return _mode;
   }
 
@@ -72,7 +67,7 @@ abstract public class Terminal implements Serializable {
     _debt += d;
   }
 
-  public void setPreviousMode() { //FIXME try to be protected
+  public void setPreviousMode() {
     _mode = _previous;
   }
 

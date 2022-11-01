@@ -10,17 +10,7 @@ public class BusyMode extends TerminalMode {
   }
 
   @Override
-  public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalBusyException {
-    throw new TerminalBusyException(_terminal.getId());
-  }
-
-  @Override
   public Communication acceptVoiceCall(Terminal origin, int id) throws TerminalBusyException {
-    throw new TerminalBusyException(_terminal.getId());
-  }
-
-  @Override
-  public Communication makeVideoCall(Terminal receiver, int id) throws TerminalBusyException {
     throw new TerminalBusyException(_terminal.getId());
   }
 

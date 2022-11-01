@@ -11,28 +11,12 @@ public class OffMode extends TerminalMode {
     }
     
     @Override
-    public Communication makeSMS(Terminal receiver, String message, int id, ClientLevel level)
-    throws TerminalOffException {
-        throw new TerminalOffException(_terminal.getId());
-    }
-    
-    @Override
     public Communication acceptSMS(Terminal origin, String msg, int id, ClientLevel level) throws TerminalOffException {
         throw new TerminalOffException(_terminal.getId());
     }
     
     @Override
-    public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalOffException {
-        throw new TerminalOffException(_terminal.getId());
-    }
-    
-    @Override
     public Communication acceptVoiceCall(Terminal origin, int id) throws TerminalOffException {
-        throw new TerminalOffException(_terminal.getId());
-    }
-    
-    @Override
-    public Communication makeVideoCall(Terminal receiver, int id) throws TerminalOffException {
         throw new TerminalOffException(_terminal.getId());
     }
     

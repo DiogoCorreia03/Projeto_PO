@@ -11,17 +11,12 @@ public abstract class InteractiveCommunication extends Communication {
     super(id, origin, receiver, true);
   }
 
-  private void end() {
+  public double endCommunication(int size, ClientLevel level) {
+    _duration = size;
     _isOngoing = false;
     _origin.setPreviousMode();
     _receiver.setPreviousMode();
-  }
-
-  public double endCommunication(int size, ClientLevel level) {
-    _duration = size;
-    end();
     double cost = computeCost(level);
-    setCost(cost);
     return cost;
   }
 
