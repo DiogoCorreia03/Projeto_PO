@@ -12,11 +12,30 @@ public class FancyTerminal extends Terminal {
   }
 
   public Communication makeVideoCall(Terminal receiver, int id) throws TerminalException {
-    return getMode().makeVideoCall(receiver, id);
+    try {
+      Communication videoComm = getMode().makeVideoCall(receiver, id);
+      setOngoingCommunication(videoComm);
+      setPrevious(getMode());
+      setBusy();
+      addMadeCommunication(videoComm);
+      return videoComm;
+    }
+    catch (TerminalException e) {
+      throw e;
+    }
   }
 
   protected Communication acceptVideoCall(Terminal origin, int id) throws TerminalException {
-    return getMode().acceptVideoCall(origin, id);
+    try {
+      Communication videoComm = getMode().acceptVideoCall(origin, id);
+      setOngoingCommunication(videoComm);
+      setBusy();
+      addReceivedCommunication(videoComm);
+      return videoComm;
+    }
+    catch (TerminalException e) {
+      throw e;
+    }
   }
 
   public String toString() {

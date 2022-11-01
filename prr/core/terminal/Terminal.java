@@ -11,6 +11,7 @@ import prr.core.client.clientLevels.ClientLevel;
 import prr.core.communication.Communication;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.TerminalException;
+import prr.core.exception.TerminalOffException;
 import prr.core.exception.UnknownTerminalException;
 
 /**
@@ -133,19 +134,54 @@ abstract public class Terminal implements Serializable {
   }
 
   public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalException {
-    return _mode.makeSMS(receiver, message, id, _owner.getClientLevel());
+    try {
+      Communication textComm = _mode.makeSMS(receiver, message, id, _owner.getClientLevel());
+      addMadeCommunication(textComm);
+      addDebt(textComm.getCost());
+      return textComm;
+    }
+    catch (TerminalException e) {
+      throw e;
+    }
   }
 
   protected Communication acceptSMS(Terminal origin, String msg, int id, ClientLevel level) throws TerminalException {
-    return _mode.acceptSMS(origin, msg, id, level);
+    try {
+      Communication textComm = _mode.acceptSMS(origin, msg, id, level);
+      addReceivedCommunication(textComm);
+      return textComm;
+    }
+    catch (TerminalException e) {
+      throw e;
+    }
   }
 
   public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalException {
-    return _mode.makeVoiceCall(receiver, id);
+    try {
+      Communication voiceComm = _mode.makeVoiceCall(receiver, id);
+      setOngoingCommunication(voiceComm);
+      setPrevious(_mode);
+      setBusy();
+      addMadeCommunication(voiceComm);
+      return voiceComm;
+    }
+    catch (TerminalException e) {
+      throw e;
+    }
   }
 
   protected Communication acceptVoiceCall(Terminal origin, int id) throws TerminalException {
-    return _mode.acceptVoiceCall(origin, id);
+    try {
+      Communication voiceComm = _mode.acceptVoiceCall(origin, id);
+      setOngoingCommunication(voiceComm);
+      setPrevious(_mode);
+      setBusy();
+      addReceivedCommunication(voiceComm);
+      return voiceComm;
+    }
+    catch (TerminalException e) {
+      throw e;
+    }
   }
 
   public abstract Communication makeVideoCall(Terminal receiver, int id) throws TerminalException;
