@@ -18,9 +18,9 @@ public abstract class Communication implements Serializable {
 
   boolean _isOngoing;
 
-  private Terminal _origin;
+  protected Terminal _origin; //FIXME passar para private e por get?
 
-  private Terminal _receiver;
+  protected Terminal _receiver;
 
   public Communication(int id, Terminal origin, Terminal receiver) {
     _id = id;
@@ -41,12 +41,6 @@ public abstract class Communication implements Serializable {
 
   public double getCost() {
     return _cost;
-  }
-
-  protected void end() {
-    _isOngoing = false;
-    _origin.setPreviousMode();
-    _receiver.setPreviousMode();
   }
 
   protected void setCost(double cost) {
