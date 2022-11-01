@@ -10,8 +10,8 @@ import prr.core.client.Client;
 import prr.core.client.clientLevels.ClientLevel;
 import prr.core.communication.Communication;
 import prr.core.exception.DuplicateTerminalException;
+import prr.core.exception.NoOnGoingCommunicationException;
 import prr.core.exception.TerminalException;
-import prr.core.exception.TerminalOffException;
 import prr.core.exception.UnknownTerminalException;
 
 /**
@@ -80,6 +80,22 @@ abstract public class Terminal implements Serializable {
     _previous = mode;
   }
 
+  public List<String> getMadeCommunications() {
+    List<String> temp = new ArrayList<>();
+    for (Communication c : _madeCommunications) {
+      temp.add(c.toString());
+    }
+    return temp;
+  }
+
+  public List<String> getReceivedCommunications() {
+    List<String> temp = new ArrayList<>();
+    for (Communication c : _receivedCommunications) {
+      temp.add(c.toString());
+    }
+    return temp;
+  }
+
   public boolean turnOff() {
     if (_mode instanceof OffMode)
       return false;
@@ -107,6 +123,13 @@ abstract public class Terminal implements Serializable {
 
   protected void setOngoingCommunication(Communication comm) {
     _ongoingCommunication = comm;
+  }
+
+  public String showOngoingCommunication() throws NoOnGoingCommunicationException {
+    if (_ongoingCommunication == null) {
+      throw new NoOnGoingCommunicationException();
+    }
+    return _ongoingCommunication.toString();
   }
 
   protected void addMadeCommunication(Communication comm) {
@@ -188,9 +211,11 @@ abstract public class Terminal implements Serializable {
 
   protected abstract Communication acceptVideoCall(Terminal origin, int id) throws TerminalException;
 
-  public void endOnGoingCommunication(int size) {
-    _debt += _ongoingCommunication.endCommunication(size, _owner.getClientLevel());
+  public long endOnGoingCommunication(int size) {
+    double cost = _ongoingCommunication.endCommunication(size, _owner.getClientLevel());
+    _debt += cost;
     _ongoingCommunication = null;
+    return Math.round(cost);
   }
 
   /**
