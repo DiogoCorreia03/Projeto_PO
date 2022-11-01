@@ -3,8 +3,8 @@ package prr.core.communication;
 import prr.core.client.clientLevels.ClientLevel;
 import prr.core.terminal.Terminal;
 
-public abstract class InteractiveCommunication extends Communication{
-  
+public abstract class InteractiveCommunication extends Communication {
+
   private int _duration;
 
   public InteractiveCommunication(int id, Terminal origin, Terminal receiver) {

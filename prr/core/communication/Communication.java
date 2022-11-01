@@ -5,8 +5,8 @@ import java.io.Serializable;
 import prr.core.client.clientLevels.ClientLevel;
 import prr.core.terminal.Terminal;
 
-public abstract class Communication implements Serializable{
-  
+public abstract class Communication implements Serializable {
+
   /** Serial number for serialization. */
   private static final long serialVersionUID = 202208091753L;
 
@@ -59,7 +59,8 @@ public abstract class Communication implements Serializable{
 
   @Override
   public String toString() {
-    return _id +"|"+ _origin.getId() +"|"+ _receiver.getId() +"|"+ getSize() +"|"+ Math.round(_cost) +"|"+ (_isOngoing?"ONGOING":"FINISHED");
+    return _id + "|" + _origin.getId() + "|" + _receiver.getId() + "|" + getSize() + "|" + Math.round(_cost) + "|"
+        + (_isOngoing ? "ONGOING" : "FINISHED");
   }
 
   public abstract double endCommunication(int size, ClientLevel level);

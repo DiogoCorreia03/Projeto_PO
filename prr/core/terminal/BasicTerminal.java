@@ -6,9 +6,9 @@ import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.UnsupportedAtDestinationException;
 import prr.core.exception.UnsupportedAtOriginException;
 
-public class BasicTerminal extends Terminal{
+public class BasicTerminal extends Terminal {
 
-  public BasicTerminal(String id, Client owner) throws DuplicateTerminalException{
+  public BasicTerminal(String id, Client owner) throws DuplicateTerminalException {
     super(id, owner);
   }
 
@@ -16,11 +16,11 @@ public class BasicTerminal extends Terminal{
     throw new UnsupportedAtOriginException(getId(), "VIDEO");
   }
 
-  protected Communication acceptVideoCall(int id, Terminal origin) throws UnsupportedAtDestinationException{
+  protected Communication acceptVideoCall(Terminal origin, int id) throws UnsupportedAtDestinationException {
     throw new UnsupportedAtDestinationException(getId(), "VIDEO");
   }
 
   public String toString() {
-    return "BASIC|" + super.toString(); 
+    return "BASIC|" + super.toString();
   }
 }

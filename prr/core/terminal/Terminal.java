@@ -9,19 +9,9 @@ import java.util.TreeMap;
 import prr.core.client.Client;
 import prr.core.client.clientLevels.ClientLevel;
 import prr.core.communication.Communication;
-import prr.core.communication.TextCommunication;
-import prr.core.communication.VoiceCommunication;
 import prr.core.exception.DuplicateTerminalException;
-import prr.core.exception.TerminalBusyException;
 import prr.core.exception.TerminalException;
-import prr.core.exception.TerminalOffException;
-import prr.core.exception.TerminalSilenceException;
 import prr.core.exception.UnknownTerminalException;
-import prr.core.terminal.terminalMode.BusyMode;
-import prr.core.terminal.terminalMode.IdleMode;
-import prr.core.terminal.terminalMode.OffMode;
-import prr.core.terminal.terminalMode.SilenceMode;
-import prr.core.terminal.terminalMode.TerminalMode;
 
 /**
  * Abstract terminal.
@@ -51,10 +41,10 @@ abstract public class Terminal implements Serializable {
 
   private Communication _ongoingCommunication;
 
-  public Terminal(String id, Client owner) throws DuplicateTerminalException{
+  public Terminal(String id, Client owner) throws DuplicateTerminalException {
     _id = id;
     _owner = owner;
-    _mode = IdleMode.getInstance();
+    _mode = new IdleMode(this);
   }
 
   public String getId() {
@@ -77,48 +67,52 @@ abstract public class Terminal implements Serializable {
     return _debt;
   }
 
-  public void addDebt(double d) {
+  protected void addDebt(double d) {
     _debt += d;
   }
 
-  public void setPreviousMode() {
+  public void setPreviousMode() { //FIXME try to be protected
     _mode = _previous;
   }
 
+  protected void setPrevious(TerminalMode mode) {
+    _previous = mode;
+  }
+
   public boolean turnOff() {
-    if (_mode == OffMode.getInstance())
+    if (_mode instanceof OffMode)
       return false;
-    _mode = OffMode.getInstance();
+    _mode = new OffMode(this);
     return true;
   }
 
   public boolean turnOn() {
-    if (_mode == IdleMode.getInstance())
+    if (_mode instanceof IdleMode)
       return false;
-    _mode = IdleMode.getInstance();
+    _mode = new IdleMode(this);
     return true;
   }
 
   public boolean setOnSilent() {
-    if (_mode == SilenceMode.getInstance())
+    if (_mode instanceof SilenceMode)
       return false;
-    _mode = SilenceMode.getInstance();
+    _mode = new SilenceMode(this);
     return true;
   }
 
   protected void setBusy() {
-    _mode = BusyMode.getInstance();
+    _mode = new BusyMode(this);
   }
 
-  public void setOngoingCommunication(Communication comm) {
+  protected void setOngoingCommunication(Communication comm) {
     _ongoingCommunication = comm;
   }
 
-  public void addMadeCommunication(Communication comm) {
+  protected void addMadeCommunication(Communication comm) {
     _madeCommunications.add(comm);
   }
 
-  public void addReceivedCommunication(Communication comm) {
+  protected void addReceivedCommunication(Communication comm) {
     _receivedCommunications.add(comm);
   }
 
@@ -138,95 +132,70 @@ abstract public class Terminal implements Serializable {
     return true;
   }
 
-  private String getFriends() {
-    List<String> list = new ArrayList<>(_friends.keySet());
-    String joined = String.join(", ", list);
-    if (list.size() > 0)
-      joined = "|"+joined;
-    return joined;
-  }
- 
-  //public abstract Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException;
-    
-
-  protected Communication acceptSMS(int id, Terminal origin, String msg, ClientLevel level) throws TerminalOffException {
-    if (_mode == TerminalMode.OFF)
-      throw new TerminalOffException(_id);
-      //FIXME adicionar mandar/criar notificacao
-
-    Communication textComm = new TextCommunication(id, origin, this, msg, level);
-    _receivedCommunications.add(textComm);
-    return textComm;
+  public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalException {
+    return _mode.makeSMS(receiver, message, id, _owner.getClientLevel());
   }
 
-  /*
+  protected Communication acceptSMS(Terminal origin, String msg, int id, ClientLevel level) throws TerminalException {
+    return _mode.acceptSMS(origin, msg, id, level);
+  }
 
   public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalException {
-    Communication voiceComm = receiver.acceptVoiceCall(id, this);
-    _ongoingCommunication = voiceComm;
-    _previous = _mode;
-    _mode = TerminalMode.BUSY;
-    _madeCommunications.add(voiceComm);
-    return voiceComm;
+    return _mode.makeVoiceCall(receiver, id);
   }
 
-   protected Communication acceptVoiceCall(int id, Terminal origin) throws TerminalException {
-    if (_mode == TerminalMode.OFF)
-      throw new TerminalOffException(_id);
-    if (_mode == TerminalMode.BUSY)
-      throw new TerminalBusyException(_id);
-    if (_mode == TerminalMode.SILENCE)
-      throw new TerminalSilenceException(_id);
-
-    Communication voiceComm = new VoiceCommunication(id, origin, this);
-    _ongoingCommunication = voiceComm;
-    _previous = _mode;
-    _mode = TerminalMode.BUSY;
-    _receivedCommunications.add(voiceComm);
-    return voiceComm;
+  protected Communication acceptVoiceCall(Terminal origin, int id) throws TerminalException {
+    return _mode.acceptVoiceCall(origin, id);
   }
 
   public abstract Communication makeVideoCall(Terminal receiver, int id) throws TerminalException;
 
-  protected abstract Communication acceptVideoCall(int id, Terminal origin) throws TerminalException;
-   */
+  protected abstract Communication acceptVideoCall(Terminal origin, int id) throws TerminalException;
 
   public void endOnGoingCommunication(int size) {
     _debt += _ongoingCommunication.endCommunication(size, _owner.getClientLevel());
     _ongoingCommunication = null;
   }
 
-
   /**
    * Checks if this terminal can end the current interactive communication.
    *
-   * @return true if this terminal is busy (i.e., it has an active interactive communication) and
-   *          it was the originator of this communication.
+   * @return true if this terminal is busy (i.e., it has an active interactive
+   *         communication) and
+   *         it was the originator of this communication.
    **/
   public boolean canEndCurrentCommunication() {
-    if (_mode == BusyMode.getInstance() && _ongoingCommunication.isOrigin(_id))
+    if (_mode instanceof BusyMode && _ongoingCommunication.isOrigin(_id))
       return true;
     return false;
   }
-  
+
   /**
    * Checks if this terminal can start a new communication.
    *
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
   public boolean canStartCommunication() {
-    if (_mode == IdleMode.getInstance() || _mode == SilenceMode.getInstance())
+    if (_mode instanceof IdleMode || _mode instanceof SilenceMode)
       return true;
     return false;
   }
-  
+
   public boolean equals(Terminal t) {
     return _id.equals(t.getId());
   }
 
+  private String getFriends() {
+    List<String> list = new ArrayList<>(_friends.keySet());
+    String joined = String.join(", ", list);
+    if (list.size() > 0)
+      joined = "|" + joined;
+    return joined;
+  }
+
   public String toString() {
-    return _id +"|"+ _owner.getKey() +"|"+ _mode +"|"
-           + Math.round(_payments) +"|"+ Math.round(_debt)
-           + getFriends();
+    return _id + "|" + _owner.getKey() + "|" + _mode + "|"
+        + Math.round(_payments) + "|" + Math.round(_debt)
+        + getFriends();
   }
 }
