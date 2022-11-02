@@ -2,8 +2,10 @@ package prr.core.terminal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import prr.core.client.Client;
@@ -46,6 +48,8 @@ abstract public class Terminal implements Serializable {
 
   private Communication _ongoingCommunication;
 
+  private Set<Client> _toNotify = new HashSet<>();
+
   public Terminal(String id, Client owner) throws DuplicateTerminalException {
     _id = id;
     _owner = owner;
@@ -68,6 +72,10 @@ abstract public class Terminal implements Serializable {
     return _debt;
   }
 
+  public Client getOwner() {
+    return _owner;
+  }
+
   protected void addDebt(double d) {
     _debt += d;
   }
@@ -88,6 +96,10 @@ abstract public class Terminal implements Serializable {
   public List<Communication> getReceivedCommunications() {
     List<Communication> temp = new ArrayList<>(_receivedCommunications);
     return temp;
+  }
+
+  public void addToNotify(Client c) {
+    _toNotify.add(c);
   }
 
   public boolean turnOff() {

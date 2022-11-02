@@ -102,6 +102,22 @@ public class Client implements Serializable{
     return true;
   }
 
+  @Override
+  public int hashCode() {
+    return _key.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Client))
+      return false;
+    if (obj == this)
+      return true;
+    
+    Client c = (Client) obj;
+    return _key.equals(c.getKey());
+  }
+
   public String toString() {
     
     return "CLIENT|"+_key +"|"+ _name +"|"+ _nif +"|"+ _level
