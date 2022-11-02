@@ -289,7 +289,7 @@ public class Network implements Serializable {
     _communications.add(interactiveComm);
   }
 
-  public List<String> showCommunicationsfromClient(String id) throws UnknownClientException {
+  public List<String> showCommunicationsfromClient(String id) throws UnknownClientException { //FIXME order errada?
     try {
       List<String> temp = new ArrayList<>();
       Client c = getClient(id);

@@ -59,7 +59,7 @@ public abstract class Communication implements Serializable {
 
   public abstract double endCommunication(int size, ClientLevel level);
 
-  protected abstract double computeCost(ClientLevel level);
+  protected abstract double computeCost(ClientLevel level, boolean isFriend);
 
   public abstract int getSize();
 }

@@ -151,6 +151,10 @@ abstract public class Terminal implements Serializable {
     _friends.remove(unfriend);
   }
 
+  public boolean isFriend(String id) {
+    return _friends.containsKey(id);
+  }
+
   public boolean isActiveTerminal() {
     if (_receivedCommunications.size() == 0 && _madeCommunications.size() == 0)
       return false;
@@ -226,7 +230,7 @@ abstract public class Terminal implements Serializable {
    *         communication) and
    *         it was the originator of this communication.
    **/
-  public boolean canEndCurrentCommunication() {
+  public boolean canEndCurrentCommunication() { //FIXME isntanceof mal?
     if (_mode instanceof BusyMode && _ongoingCommunication.isOrigin(_id))
       return true;
     return false;

@@ -9,8 +9,8 @@ public class VoiceCommunication extends InteractiveCommunication {
     super(id, origin, receiver);
   }
 
-  protected double computeCost(ClientLevel level) {
-    return level.computeCost(this);
+  protected double computeCost(ClientLevel level, boolean isFriend) {
+    return isFriend?level.computeCost(this)/2:level.computeCost(this);
   }
 
   @Override
