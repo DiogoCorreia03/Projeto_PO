@@ -1,6 +1,7 @@
 package prr.app.terminal;
 
 import prr.core.Network;
+import prr.core.exception.NoOnGoingCommunicationException;
 import prr.core.terminal.Terminal;
 import pt.tecnico.uilib.menus.CommandException;
 
@@ -15,6 +16,11 @@ class DoShowOngoingCommunication extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    try {
+      _display.popup(_receiver.showOngoingCommunication());
+    }
+    catch (NoOnGoingCommunicationException e) {
+      _display.popup(Message.noOngoingCommunication());
+    }
   }
 }

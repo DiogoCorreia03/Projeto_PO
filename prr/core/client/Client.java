@@ -1,6 +1,8 @@
 package prr.core.client;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -58,6 +60,10 @@ public class Client implements Serializable{
 
   public ClientLevel getClientLevel() {
     return _level;
+  }
+
+  public List<Terminal> getTerminals() {
+    return new ArrayList<>(_terminals.values());
   }
 
   public double getPayments() {
