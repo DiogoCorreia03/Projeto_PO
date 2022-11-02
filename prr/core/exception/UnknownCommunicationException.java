@@ -1,9 +1,6 @@
 package prr.core.exception;
 
-import javax.naming.CommunicationException;
-
-public class UnknownCommunicationException extends CommunicationException {
-
-    public UnknownCommunicationException() {}
-    
+public class UnknownCommunicationException extends Exception {
+    /** Serial number for serialization. */
+    private static final long serialVersionUID = 202208091753L;
 }
