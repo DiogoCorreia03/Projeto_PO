@@ -16,7 +16,7 @@ public abstract class InteractiveCommunication extends Communication {
     _isOngoing = false;
     _origin.setPreviousMode();
     _receiver.setPreviousMode();
-    double cost = computeCost(level);
+    double cost = computeCost(level, _origin.isFriend(_receiver.getId()));
     return cost;
   }
 

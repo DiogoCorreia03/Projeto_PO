@@ -12,7 +12,6 @@ import prr.core.communication.Communication;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.TerminalBusyException;
 import prr.core.exception.NoOnGoingCommunicationException;
-import prr.core.exception.TerminalException;
 import prr.core.exception.TerminalOffException;
 import prr.core.exception.TerminalSilenceException;
 import prr.core.exception.UnknownTerminalException;
@@ -151,6 +150,10 @@ abstract public class Terminal implements Serializable {
     _friends.remove(unfriend);
   }
 
+  public boolean isFriend(String id) {
+    return _friends.containsKey(id);
+  }
+
   public boolean isActiveTerminal() {
     if (_receivedCommunications.size() == 0 && _madeCommunications.size() == 0)
       return false;
@@ -158,54 +161,34 @@ abstract public class Terminal implements Serializable {
   }
 
   public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException {
-    try {
       Communication textComm = _mode.makeSMS(receiver, message, id, _owner.getClientLevel());
       addMadeCommunication(textComm);
       addDebt(textComm.getCost());
       return textComm;
-    }
-    catch (TerminalOffException e) {
-      throw e;
-    }
   }
 
   protected Communication acceptSMS(Terminal origin, String msg, int id, ClientLevel level) throws TerminalOffException {
-    try {
       Communication textComm = _mode.acceptSMS(origin, msg, id, level);
       addReceivedCommunication(textComm);
       return textComm;
-    }
-    catch (TerminalOffException e) {
-      throw e;
-    }
   }
 
   public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException {
-    try {
       Communication voiceComm = _mode.makeVoiceCall(receiver, id);
       setOngoingCommunication(voiceComm);
       setPrevious(_mode);
       setBusy();
       addMadeCommunication(voiceComm);
       return voiceComm;
-    }
-    catch (TerminalException e) {
-      throw e;
-    }
   }
 
   protected Communication acceptVoiceCall(Terminal origin, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException {
-    try {
       Communication voiceComm = _mode.acceptVoiceCall(origin, id);
       setOngoingCommunication(voiceComm);
       setPrevious(_mode);
       setBusy();
       addReceivedCommunication(voiceComm);
       return voiceComm;
-    }
-    catch (TerminalException e) {
-      throw e;
-    }
   }
 
   public abstract Communication makeVideoCall(Terminal receiver, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException, UnsupportedAtOriginException, UnsupportedAtDestinationException;
@@ -226,7 +209,7 @@ abstract public class Terminal implements Serializable {
    *         communication) and
    *         it was the originator of this communication.
    **/
-  public boolean canEndCurrentCommunication() {
+  public boolean canEndCurrentCommunication() { //FIXME isntanceof mal?
     if (_mode instanceof BusyMode && _ongoingCommunication.isOrigin(_id))
       return true;
     return false;

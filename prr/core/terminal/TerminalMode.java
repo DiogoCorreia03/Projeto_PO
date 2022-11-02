@@ -27,7 +27,7 @@ public abstract class TerminalMode implements Serializable {
   }
 
   public Communication acceptSMS(Terminal origin, String msg, int id, ClientLevel level) throws TerminalOffException {
-    return new TextCommunication(id, origin, _terminal, msg, level);
+    return new TextCommunication(id, origin, _terminal, msg, level, origin.isFriend(_terminal.getId()));
   }
 
   public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException {
