@@ -80,19 +80,13 @@ abstract public class Terminal implements Serializable {
     _previous = mode;
   }
 
-  public List<String> getMadeCommunications() {
-    List<String> temp = new ArrayList<>();
-    for (Communication c : _madeCommunications) {
-      temp.add(c.toString());
-    }
+  public List<Communication> getMadeCommunications() {
+    List<Communication> temp = new ArrayList<>(_madeCommunications);
     return temp;
   }
 
-  public List<String> getReceivedCommunications() {
-    List<String> temp = new ArrayList<>();
-    for (Communication c : _receivedCommunications) {
-      temp.add(c.toString());
-    }
+  public List<Communication> getReceivedCommunications() {
+    List<Communication> temp = new ArrayList<>(_receivedCommunications);
     return temp;
   }
 

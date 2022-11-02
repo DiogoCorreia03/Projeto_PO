@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import prr.core.client.Client;
 import prr.core.client.DebtsComparator;
+import prr.core.communication.CommsComparator;
 import prr.core.communication.Communication;
 import prr.core.exception.DuplicateClientException;
 import prr.core.exception.DuplicateTerminalException;
@@ -285,21 +286,38 @@ public class Network implements Serializable {
   }
 
   public List<String> showCommunicationsfromClient(String id) throws UnknownClientException { //FIXME order errada?
-      List<String> temp = new ArrayList<>();
+      List<Communication> temp = new ArrayList<>();
       Client c = getClient(id);
-        for (Terminal t : c.getTerminals()) {
-            temp.addAll(t.getMadeCommunications());
-          }
-      return temp;  
+
+      for (Terminal t : c.getTerminals()) {
+        temp.addAll(t.getMadeCommunications());
+      }
+      
+      Collections.sort(temp, new CommsComparator());
+
+      List<String> ordered = new ArrayList<>();
+      for (Communication comm : temp) {
+        ordered.add(comm.toString());
+      }
+
+      return ordered;  
   }
 
   public List<String> showCommunicationsToClient(String id) throws UnknownClientException {
-      List<String> temp = new ArrayList<>();
+      List<Communication> temp = new ArrayList<>();
       Client c = getClient(id);
-        for (Terminal t : c.getTerminals()) {
-            temp.addAll(t.getReceivedCommunications());
-          }
-      return temp;    
+      for (Terminal t : c.getTerminals()) {
+        temp.addAll(t.getReceivedCommunications());
+      }
+
+      Collections.sort(temp, new CommsComparator());
+
+      List<String> ordered = new ArrayList<>();
+      for (Communication comm : temp) {
+        ordered.add(comm.toString());
+      }
+
+      return ordered;     
   }
 
 

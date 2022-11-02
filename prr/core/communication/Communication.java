@@ -35,6 +35,10 @@ public abstract class Communication implements Serializable {
     _isOngoing = state;
   }
 
+  public int getId() {
+    return _id;
+  }
+
   public boolean getPaymentStatus() {
     return _isPaid;
   }
