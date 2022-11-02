@@ -280,6 +280,35 @@ public class Network implements Serializable {
     _communications.add(interactiveComm);
   }
 
+  public List<String> showCommunicationsfromClient(String id) throws UnknownClientException {
+    try {
+      List<String> temp = new ArrayList<>();
+      Client c = getClient(id);
+        for (Terminal t : c.getTerminals()) {
+            temp.addAll(t.getMadeCommunications());
+          }
+      return temp;
+    }
+    catch (UnknownClientException e) {
+      throw e;
+    }    
+  }
+
+  public List<String> showCommunicationsToClient(String id) throws UnknownClientException {
+    try {
+      List<String> temp = new ArrayList<>();
+      Client c = getClient(id);
+        for (Terminal t : c.getTerminals()) {
+            temp.addAll(t.getReceivedCommunications());
+          }
+      return temp;
+    }
+    catch (UnknownClientException e) {
+      throw e;
+    }    
+  }
+
+
   public double showGlobalPayments() {
     double sum_payments = 0;
     for (Client c : _clients.values())
