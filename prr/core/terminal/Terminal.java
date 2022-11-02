@@ -14,6 +14,7 @@ import prr.core.exception.TerminalBusyException;
 import prr.core.exception.NoOnGoingCommunicationException;
 import prr.core.exception.TerminalOffException;
 import prr.core.exception.TerminalSilenceException;
+import prr.core.exception.UnknownCommunicationException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnsupportedAtDestinationException;
 import prr.core.exception.UnsupportedAtOriginException;
@@ -152,6 +153,22 @@ abstract public class Terminal implements Serializable {
     if (_receivedCommunications.size() == 0 && _madeCommunications.size() == 0)
       return false;
     return true;
+  }
+
+  private Communication getMadeCommunication(int id) throws UnknownCommunicationException {
+    for (Communication c : _madeCommunications) {
+      if (c.getId() == id)
+        return c;
+    }
+    throw new UnknownCommunicationException(id);
+  }
+
+  public void makePayment (int commID) throws UnknownCommunicationException {
+    Communication comm = getMadeCommunication(commID);
+    double cost = comm.getCost();
+    _debt -= cost;
+    _payments += cost;
+    comm.isPaid();  
   }
 
   public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException {

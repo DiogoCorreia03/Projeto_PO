@@ -51,6 +51,10 @@ public abstract class Communication implements Serializable {
     _cost = cost;
   }
 
+  public void isPaid() {
+    _isPaid = true;
+  }
+
   public boolean isOrigin(String key) {
     return key.equals(_origin.getId());
   }
