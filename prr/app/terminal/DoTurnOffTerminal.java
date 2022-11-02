@@ -17,7 +17,5 @@ class DoTurnOffTerminal extends TerminalCommand {
   protected final void execute() throws CommandException {
     if (!_receiver.turnOff())
       _display.popup(Message.alreadyOff());
-
-    _receiver.turnOff();
   }
 }

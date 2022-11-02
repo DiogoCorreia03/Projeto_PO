@@ -1,9 +1,9 @@
 package prr.core.exception;
 
-public class UnknownCommunicationException extends prr.core.exception.CommunicationException {
+import javax.naming.CommunicationException;
 
-    public UnknownCommunicationException(int id) {
-        super(id);
-    }
+public class UnknownCommunicationException extends CommunicationException {
+
+    public UnknownCommunicationException() {}
     
 }

@@ -153,8 +153,4 @@ interface Message {
   static String characters() {
     return "Número de caracteres da comunicação: ";
   }
-
-  static String foreignCommunication(int id) {
-    return "A comunicação de destino (" + id  + "( não pertence a este terminal";
-  }
 }

@@ -17,7 +17,5 @@ class DoSilenceTerminal extends TerminalCommand {
   protected final void execute() throws CommandException {
     if (!_receiver.setOnSilent()) 
       _display.popup(Message.alreadySilent());
-
-    _receiver.setOnSilent();
   }
 }

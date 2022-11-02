@@ -160,7 +160,7 @@ abstract public class Terminal implements Serializable {
       if (c.getId() == id)
         return c;
     }
-    throw new UnknownCommunicationException(id);
+    throw new UnknownCommunicationException();
   }
 
   public void makePayment (int commID) throws UnknownCommunicationException {
@@ -168,7 +168,7 @@ abstract public class Terminal implements Serializable {
     double cost = comm.getCost();
     _debt -= cost;
     _payments += cost;
-    comm.isPaid();  
+    comm.Pay(); 
   }
 
   public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException {
