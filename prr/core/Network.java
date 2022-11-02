@@ -15,9 +15,13 @@ import prr.core.exception.DuplicateClientException;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.UnknownClientException;
 import prr.core.exception.InvalidTerminalException;
-import prr.core.exception.TerminalException;
+import prr.core.exception.TerminalBusyException;
+import prr.core.exception.TerminalOffException;
+import prr.core.exception.TerminalSilenceException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnrecognizedEntryException;
+import prr.core.exception.UnsupportedAtDestinationException;
+import prr.core.exception.UnsupportedAtOriginException;
 import prr.core.terminal.BasicTerminal;
 import prr.core.terminal.FancyTerminal;
 import prr.core.terminal.Terminal;
@@ -264,13 +268,18 @@ public class Network implements Serializable {
     return list;
   }
 
-  public void sendTextCommunication(Terminal origin, String receiverId, String msg) throws TerminalException{
-    Terminal receiver = _terminals.get(receiverId);
+  public void sendTextCommunication(Terminal origin, String receiverId, String msg) throws TerminalOffException, UnknownTerminalException{
+    //try {
+    Terminal receiver = getTerminal(receiverId);
     _communications.add(origin.makeSMS(receiver, msg, _communications.size()+1));
+    /*}
+    catch (TerminalException e) {
+      throw e;
+    }*/
   }
 
 
-  public void startInteractiveCommunication(Terminal origin, String receiverId, String type) throws TerminalException{
+  public void startInteractiveCommunication(Terminal origin, String receiverId, String type) throws TerminalOffException, TerminalBusyException, TerminalSilenceException, UnsupportedAtOriginException, UnsupportedAtDestinationException, UnknownTerminalException{
     Terminal receiver = _terminals.get(receiverId);
     Communication interactiveComm = null;
     switch (type) {

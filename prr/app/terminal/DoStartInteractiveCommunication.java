@@ -1,10 +1,14 @@
 package prr.app.terminal;
 
 import prr.core.Network;
-import prr.core.exception.TerminalException;
+import prr.core.exception.TerminalBusyException;
+import prr.core.exception.TerminalOffException;
+import prr.core.exception.TerminalSilenceException;
+import prr.core.exception.UnknownTerminalException;
+import prr.core.exception.UnsupportedAtDestinationException;
+import prr.core.exception.UnsupportedAtOriginException;
 import prr.core.terminal.Terminal;
 import prr.app.exception.UnknownTerminalKeyException;
-import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.CommandException;
 
 /**
@@ -23,8 +27,23 @@ class DoStartInteractiveCommunication extends TerminalCommand {
     try {
       _network.startInteractiveCommunication(_receiver, stringField("key"), stringField("type"));
     }
-    catch (TerminalException e) { //FIXME exceptions
-      System.out.println("erro");
+    catch (UnknownTerminalException e) {
+      throw new UnknownTerminalKeyException(e.getId());
+    }
+    catch (TerminalOffException e) {
+      _display.popup(Message.destinationIsOff(e.getId()));
+    }
+    catch (TerminalSilenceException e) {
+      _display.popup(Message.destinationIsSilent(e.getId()));
+    }
+    catch (TerminalBusyException e) {
+      _display.popup(Message.destinationIsBusy(e.getId()));
+    }
+    catch (UnsupportedAtOriginException e) {
+      _display.popup(Message.unsupportedAtOrigin(e.getId(), e.getType()));
+    }
+    catch (UnsupportedAtDestinationException e) {
+      _display.popup(Message.unsupportedAtDestination(e.getId(), e.getType()));
     }
   }
 }
