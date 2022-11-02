@@ -15,11 +15,11 @@ public class PlatinumLevel implements ClientLevel {
     }
 
     public double computeCost(VoiceCommunication comm) {
-        return 10 * comm.getSize();
+        return 10 * ( (double) comm.getSize()/60);
     } 
 
     public double computeCost(VideoCommunication comm) {
-        return 10 * comm.getSize();
+        return 10 * ( (double) comm.getSize()/60);
     }
 
     public PlatinumLevel getInstance() {
