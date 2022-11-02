@@ -24,6 +24,7 @@ class DoShowClient extends Command<Network> {
     try {
       String key = stringField("key");
       _display.addLine(_receiver.showClient(key));
+      _display.addAll(_receiver.showClientNotifications(key));
       _display.display();
     }
     catch (UnknownClientException e) {

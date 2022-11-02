@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import prr.core.client.clientLevels.*;
 import prr.core.exception.DuplicateClientException;
+import prr.core.notifications.Notification;
 import prr.core.terminal.Terminal;
 
 public class Client implements Serializable{
@@ -32,7 +33,9 @@ public class Client implements Serializable{
 
   /** Client's terminals*/
   private Map<String, Terminal> _terminals = new TreeMap<>();
- 
+
+  /** Client's unread notifications */
+  private List<Notification> _notifications = new ArrayList<>();
 
   public Client(String key, String name, int nif) throws DuplicateClientException {
     _key = key;
@@ -82,8 +85,18 @@ public class Client implements Serializable{
     return sum;
   }
 
+  public List<Notification> showAllNotifications() {
+    List<Notification> temp = new ArrayList<>(_notifications);
+    _notifications.clear();
+    return temp;
+  }
+
   public void addTerminal(Terminal terminal) {
     _terminals.put(terminal.getId(), terminal);
+  }
+
+  public void addNotification(Notification n) {
+    _notifications.add(n);
   }
 
   public boolean enableNotifications() {
@@ -118,8 +131,8 @@ public class Client implements Serializable{
     return _key.equals(c.getKey());
   }
 
+  @Override
   public String toString() {
-    
     return "CLIENT|"+_key +"|"+ _name +"|"+ _nif +"|"+ _level
            +"|"+ (_receiveNotifications?"YES":"NO") +"|"+ _terminals.size() 
            +"|"+ Math.round(getPayments()) +"|"+ Math.round(getDebts());

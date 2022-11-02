@@ -9,16 +9,16 @@ public abstract class Notification implements Serializable{
     /** Serial number for serialization. */
     private static final long serialVersionUID = 202208091753L;
 
-    private final NotificationType _type;
+    private final String _type;
 
     private final Terminal _terminal;
 
-    public Notification(NotificationType type, Terminal terminal) {
+    public Notification(String type, Terminal terminal) {
         _type = type;
         _terminal = terminal;
     }
 
-    public NotificationType getType() {
+    public String getType() {
         return _type;
     }
 

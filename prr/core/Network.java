@@ -23,6 +23,7 @@ import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnrecognizedEntryException;
 import prr.core.exception.UnsupportedAtDestinationException;
 import prr.core.exception.UnsupportedAtOriginException;
+import prr.core.notifications.Notification;
 import prr.core.terminal.BasicTerminal;
 import prr.core.terminal.FancyTerminal;
 import prr.core.terminal.Terminal;
@@ -84,6 +85,10 @@ public class Network implements Serializable {
    */
   public String showClient(String key) throws UnknownClientException {
     return getClient(key).toString();
+  }
+
+  public List<Notification> showClientNotifications(String key) throws UnknownClientException {
+    return getClient(key).showAllNotifications();
   }
 
   /**
