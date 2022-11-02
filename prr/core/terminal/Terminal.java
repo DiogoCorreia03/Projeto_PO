@@ -169,10 +169,9 @@ abstract public class Terminal implements Serializable {
   }
 
   private Communication getMadeCommunication(int id) throws UnknownCommunicationException {
-    for (Communication c : _madeCommunications) {
+    for (Communication c : _madeCommunications)
       if (c.getId() == id)
         return c;
-    }
     throw new UnknownCommunicationException();
   }
 
@@ -181,7 +180,7 @@ abstract public class Terminal implements Serializable {
     double cost = comm.getCost();
     _debt -= cost;
     _payments += cost;
-    comm.Pay(); 
+    comm.Pay();
   }
 
   public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException {
@@ -221,7 +220,7 @@ abstract public class Terminal implements Serializable {
   protected abstract Communication acceptVideoCall(Terminal origin, int id) throws TerminalOffException, 
     TerminalBusyException, TerminalSilenceException, UnsupportedAtDestinationException;
 
-  public long endOnGoingCommunication(int size) {
+  public long endOnGoingCommunication(int size) { //FIXME so esta para comms, nao para off to on/silent
     double cost = _ongoingCommunication.endCommunication(size, _owner.getClientLevel());
     _debt += cost;
     _ongoingCommunication = null;
