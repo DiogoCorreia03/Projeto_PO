@@ -11,11 +11,13 @@ public class SilenceMode extends TerminalMode {
 
   @Override
   public Communication acceptVoiceCall(Terminal origin, int id) throws TerminalSilenceException {
+    _terminal.addToNotify(origin.getOwner());
     throw new TerminalSilenceException(_terminal.getId());
   }
 
   @Override
   public Communication acceptVideoCall(Terminal origin, int id) throws TerminalSilenceException {
+    _terminal.addToNotify(origin.getOwner());
     throw new TerminalSilenceException(_terminal.getId());
   }
 
