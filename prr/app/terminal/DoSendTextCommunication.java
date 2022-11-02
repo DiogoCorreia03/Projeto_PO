@@ -1,12 +1,10 @@
 package prr.app.terminal;
 
 import prr.core.Network;
-import prr.core.exception.TerminalException;
 import prr.core.exception.TerminalOffException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.terminal.Terminal;
 import prr.app.exception.UnknownTerminalKeyException;
-import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.CommandException;
 
 /**
