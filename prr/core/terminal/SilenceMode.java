@@ -22,6 +22,31 @@ public class SilenceMode extends TerminalMode {
   }
 
   @Override
+  public boolean turnOff() {
+    _terminal.setPrevious(this);
+    _terminal.setMode(new OffMode(_terminal));
+    return true;
+  }
+
+  @Override
+  public boolean turnOn() {
+    _terminal.setPrevious(this);
+    _terminal.setMode(new IdleMode(_terminal));
+    return super.turnOn();
+  }
+
+  @Override
+  public boolean setOnSilent() {
+    return false;
+  }
+
+  @Override
+  public void setBusy() {
+    _terminal.setPrevious(this);
+    _terminal.setMode(new BusyMode(_terminal));
+  }
+
+  @Override
   public String toString() {
     return "SILENCE";
   }
