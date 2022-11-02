@@ -45,4 +45,18 @@ public abstract class TerminalMode implements Serializable {
   public Communication acceptVideoCall(Terminal origin, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException, UnsupportedAtDestinationException {
     return new VideoCommunication(origin, _terminal, id);
   }
+
+  public abstract boolean turnOff();
+
+  public boolean turnOn() {
+    _terminal.sendNotifications();
+    return true;
+  }
+
+  public boolean setOnSilent() {
+    _terminal.sendNotifications();
+    return true;
+  }
+
+  public abstract void setBusy();
 }

@@ -86,7 +86,11 @@ abstract public class Terminal implements Serializable {
     _mode = _previous;
   }
 
-  protected void setPrevious(TerminalMode mode) {
+  public void setMode(TerminalMode mode) {
+    _mode = mode;
+  } 
+
+  public void setPrevious(TerminalMode mode) {
     _previous = mode;
   }
 
@@ -105,28 +109,19 @@ abstract public class Terminal implements Serializable {
   }
 
   public boolean turnOff() {
-    if (_mode instanceof OffMode)
-      return false;
-    _mode = new OffMode(this);
-    return true;
+    return _mode.turnOff();
   }
 
   public boolean turnOn() {
-    if (_mode instanceof IdleMode)
-      return false;
-    _mode = new IdleMode(this);
-    return true;
+    return _mode.turnOn();
   }
 
   public boolean setOnSilent() {
-    if (_mode instanceof SilenceMode)
-      return false;
-    _mode = new SilenceMode(this);
-    return true;
+    return _mode.setOnSilent();
   }
 
   protected void setBusy() {
-    _mode = new BusyMode(this);
+    _mode.setBusy();
   }
 
   protected void setOngoingCommunication(Communication comm) {
@@ -199,7 +194,6 @@ abstract public class Terminal implements Serializable {
   public Communication makeVoiceCall(Terminal receiver, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException {
       Communication voiceComm = _mode.makeVoiceCall(receiver, id);
       setOngoingCommunication(voiceComm);
-      setPrevious(_mode);
       setBusy();
       addMadeCommunication(voiceComm);
       return voiceComm;
@@ -208,7 +202,6 @@ abstract public class Terminal implements Serializable {
   protected Communication acceptVoiceCall(Terminal origin, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException {
       Communication voiceComm = _mode.acceptVoiceCall(origin, id);
       setOngoingCommunication(voiceComm);
-      setPrevious(_mode);
       setBusy();
       addReceivedCommunication(voiceComm);
       return voiceComm;
@@ -220,7 +213,7 @@ abstract public class Terminal implements Serializable {
   protected abstract Communication acceptVideoCall(Terminal origin, int id) throws TerminalOffException, 
     TerminalBusyException, TerminalSilenceException, UnsupportedAtDestinationException;
 
-  public long endOnGoingCommunication(int size) { //FIXME so esta para comms, nao para off to on/silent
+  public long endOnGoingCommunication(int size) {
     double cost = _ongoingCommunication.endCommunication(size, _owner.getClientLevel());
     _debt += cost;
     _ongoingCommunication = null;
