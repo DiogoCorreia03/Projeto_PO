@@ -14,6 +14,8 @@ public abstract class InteractiveCommunication extends Communication {
   public double endCommunication(int size, ClientLevel level) {
     _duration = size;
     _isOngoing = false;
+    _origin.sendNotifications();
+    _receiver.sendNotifications();
     _origin.setPreviousMode();
     _receiver.setPreviousMode();
     double cost = computeCost(level, _origin.isFriend(_receiver.getId()));

@@ -19,6 +19,7 @@ import prr.core.exception.TerminalSilenceException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnsupportedAtDestinationException;
 import prr.core.exception.UnsupportedAtOriginException;
+import prr.core.notifications.DefaultNotification;
 
 /**
  * Abstract terminal.
@@ -197,15 +198,26 @@ abstract public class Terminal implements Serializable {
       return voiceComm;
   }
 
-  public abstract Communication makeVideoCall(Terminal receiver, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException, UnsupportedAtOriginException, UnsupportedAtDestinationException;
+  public abstract Communication makeVideoCall(Terminal receiver, int id) throws TerminalOffException, 
+    TerminalBusyException, TerminalSilenceException, UnsupportedAtOriginException, UnsupportedAtDestinationException;
 
-  protected abstract Communication acceptVideoCall(Terminal origin, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException, UnsupportedAtDestinationException;
+  protected abstract Communication acceptVideoCall(Terminal origin, int id) throws TerminalOffException, 
+    TerminalBusyException, TerminalSilenceException, UnsupportedAtDestinationException;
 
   public long endOnGoingCommunication(int size) {
     double cost = _ongoingCommunication.endCommunication(size, _owner.getClientLevel());
     _debt += cost;
     _ongoingCommunication = null;
+
     return Math.round(cost);
+  }
+
+  public void sendNotifications() {
+    for (Client c: _toNotify)
+      if (c.getNotificationPreference())
+        c.addNotification(new DefaultNotification(_mode.toString().toUpperCase().charAt(0)
+          +"2"+ _previous.toString().toUpperCase().charAt(0), this)); //FIXME tem de ficar mais bonito xD
+    _toNotify.clear();
   }
 
   /**
@@ -215,7 +227,7 @@ abstract public class Terminal implements Serializable {
    *         communication) and
    *         it was the originator of this communication.
    **/
-  public boolean canEndCurrentCommunication() { //FIXME isntanceof mal?
+  public boolean canEndCurrentCommunication() {
     if (_mode instanceof BusyMode && _ongoingCommunication.isOrigin(_id))
       return true;
     return false;
