@@ -16,11 +16,11 @@ public class NormalLevel implements ClientLevel {
   }
 
   public double computeCost(VoiceCommunication comm) {
-    return 20 * ( (double) comm.getSize()/60);
+    return 20 * comm.getSize();
   }
 
   public double computeCost(VideoCommunication comm) {
-    return 30 * ( (double) comm.getSize()/60);
+    return 30 * comm.getSize();
   }
 
   public static NormalLevel getInstance() {
