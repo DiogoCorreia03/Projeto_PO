@@ -1,5 +1,6 @@
 package prr.core.client.clientLevels;
 
+import prr.core.client.Client;
 import prr.core.communication.TextCommunication;
 import prr.core.communication.VideoCommunication;
 import prr.core.communication.VoiceCommunication;
@@ -21,6 +22,11 @@ public class NormalLevel implements ClientLevel {
 
   public double computeCost(VideoCommunication comm) {
     return 30 * comm.getSize();
+  }
+
+  public void changeLevel(Client c) {
+    if (c.getBalence() > 500)
+      c.setLevel(GoldLevel.getInstance());
   }
 
   public static NormalLevel getInstance() {

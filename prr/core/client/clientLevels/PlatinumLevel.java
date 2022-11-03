@@ -1,5 +1,9 @@
 package prr.core.client.clientLevels;
 
+import java.util.List;
+
+import prr.core.client.Client;
+import prr.core.communication.Communication;
 import prr.core.communication.TextCommunication;
 import prr.core.communication.VideoCommunication;
 import prr.core.communication.VoiceCommunication;
@@ -22,7 +26,21 @@ public class PlatinumLevel implements ClientLevel {
         return 10 * comm.getSize();
     }
 
-    public PlatinumLevel getInstance() {
+    public void changeLevel(Client c) {
+        if (c.getBalence() < 0)
+            c.setLevel(NormalLevel.getInstance());
+        else if (lastTwoCommunications(c.getMadeCommunications()))
+            c.setLevel(GoldLevel.getInstance());
+    }
+
+    private boolean lastTwoCommunications(List<Communication> list) {
+        for (int i = list.size(); i > list.size() - 2; --i)
+            if (!(list.get(i) instanceof TextCommunication))
+                return false;
+        return true;
+    }
+
+    public static PlatinumLevel getInstance() {
         if (_platinumLevel == null)
             return new PlatinumLevel();
 

@@ -2,6 +2,7 @@ package prr.core.client.clientLevels;
 
 import java.io.Serializable;
 
+import prr.core.client.Client;
 import prr.core.communication.TextCommunication;
 import prr.core.communication.VideoCommunication;
 import prr.core.communication.VoiceCommunication;
@@ -14,4 +15,6 @@ public interface ClientLevel extends Serializable{
   public double computeCost(VoiceCommunication comm);
 
   public double computeCost(VideoCommunication comm);
+
+  public void changeLevel(Client c);
 }
