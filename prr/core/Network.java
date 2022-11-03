@@ -51,7 +51,7 @@ public class Network implements Serializable {
 
   /**
    * Obtains a certain client.
-   * Receives the key of a Client, and gets the client associated to that key.
+   * Receives the key of a Client and gets the client associated to that key.
    * @param key Key of the Client.
    * @return  Client associated to that key.
    * @throws UnknownClientException Exception thrown when the given
