@@ -39,12 +39,15 @@ public class OffMode extends TerminalMode {
         return super.turnOn();
     }
 
-    public boolean setOnSilent() { //FIXME existe notificacao mas nos terminais nao aparece esta transicao
-        return false;
+    public boolean setOnSilent() {
+        _terminal.setPrevious(this);
+        _terminal.setMode(new SilenceMode(_terminal));
+        return super.setOnSilent();
     }
 
     @Override
-    public void setBusy() {}
+    public void setBusy() {
+    }
 
     @Override
     public String toString() {

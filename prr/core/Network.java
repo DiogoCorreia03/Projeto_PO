@@ -121,7 +121,7 @@ public class Network implements Serializable {
     return c.getDebts();
   }
 
-  public List<String> showClientsWithDebts() { //FIXME ordenacao
+  public List<String> showClientsWithDebts() {
     List<Client> list = new ArrayList<>(_clients.values());
     Collections.sort(list, new DebtsComparator());
     List<String> ordered = new ArrayList<>();
@@ -280,7 +280,7 @@ public class Network implements Serializable {
 
 
   public void startInteractiveCommunication(Terminal origin, String receiverId, String type) throws TerminalOffException, TerminalBusyException, TerminalSilenceException, UnsupportedAtOriginException, UnsupportedAtDestinationException, UnknownTerminalException{
-    Terminal receiver = _terminals.get(receiverId);
+    Terminal receiver = getTerminal(receiverId);
     Communication interactiveComm = null;
     switch (type) {
       case "VOICE" -> interactiveComm = origin.makeVoiceCall(receiver, _communications.size()+1);
@@ -289,7 +289,7 @@ public class Network implements Serializable {
     _communications.add(interactiveComm);
   }
 
-  public List<String> showCommunicationsfromClient(String id) throws UnknownClientException { //FIXME order errada?
+  public List<String> showCommunicationsfromClient(String id) throws UnknownClientException {
       Client c = getClient(id);
       List<Communication> temp = new ArrayList<>(c.getMadeCommunications());
 
