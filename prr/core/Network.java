@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import java.io.IOException;
 
@@ -41,10 +41,10 @@ public class Network implements Serializable {
   private static final long serialVersionUID = 202208091753L;
 
   /** Clients of the Network. */
-  private Map<String, Client> _clients = new TreeMap<>();
+  private SortedMap<String, Client> _clients = new TreeMap<>();
 
   /** Terminals of the Network. */
-  private Map<String, Terminal> _terminals = new TreeMap<>();
+  private SortedMap<String, Terminal> _terminals = new TreeMap<>();
 
   private List<Communication> _communications = new ArrayList<>();
 
