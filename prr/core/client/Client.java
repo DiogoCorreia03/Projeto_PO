@@ -2,11 +2,14 @@ package prr.core.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import prr.core.client.clientLevels.*;
+import prr.core.communication.CommsComparator;
+import prr.core.communication.Communication;
 import prr.core.exception.DuplicateClientException;
 import prr.core.notifications.Notification;
 import prr.core.terminal.Terminal;
@@ -65,10 +68,6 @@ public class Client implements Serializable{
     return _level;
   }
 
-  public List<Terminal> getTerminals() {
-    return new ArrayList<>(_terminals.values());
-  }
-
   public double getPayments() {
     double sum = 0;
     for (Terminal t: _terminals.values())
@@ -83,6 +82,14 @@ public class Client implements Serializable{
       sum += t.getDebt();
 
     return sum;
+  }
+
+  public double getBalence() {
+    return getPayments() - getDebts();
+  }
+
+  public void setLevel(ClientLevel level) {
+    _level = level;
   }
 
   public List<Notification> showAllNotifications() {
@@ -113,6 +120,24 @@ public class Client implements Serializable{
     
     _receiveNotifications = false;
     return true;
+  }
+
+  public List<Communication> getMadeCommunications() {
+    List<Communication> temp = new ArrayList<>();
+    for (Terminal t : _terminals.values())
+      temp.addAll(t.getMadeCommunications());
+
+    Collections.sort(temp, new CommsComparator());
+    return temp;
+  }
+
+  public List<Communication> getReceivedCommunications() {
+    List<Communication> temp = new ArrayList<>();
+    for (Terminal t : _terminals.values())
+      temp.addAll(t.getReceivedCommunications());
+
+    Collections.sort(temp, new CommsComparator());
+    return temp;
   }
 
   @Override
