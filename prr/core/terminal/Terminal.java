@@ -182,6 +182,7 @@ abstract public class Terminal implements Serializable {
       Communication textComm = _mode.makeSMS(receiver, message, id, _owner.getClientLevel());
       addMadeCommunication(textComm);
       addDebt(textComm.getCost());
+      _owner.getClientLevel().changeLevel(_owner);
       return textComm;
   }
 
@@ -213,12 +214,12 @@ abstract public class Terminal implements Serializable {
   protected abstract Communication acceptVideoCall(Terminal origin, int id) throws TerminalOffException, 
     TerminalBusyException, TerminalSilenceException, UnsupportedAtDestinationException;
 
-  public long endOnGoingCommunication(int size) {
+  public double endOnGoingCommunication(int size) {
     double cost = _ongoingCommunication.endCommunication(size, _owner.getClientLevel());
     _debt += cost;
     _ongoingCommunication = null;
-
-    return Math.round(cost);
+    _owner.getClientLevel().changeLevel(_owner);
+    return cost;
   }
 
   public void sendNotifications() {
