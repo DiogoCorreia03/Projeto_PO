@@ -2,27 +2,22 @@ package prr.core.notifications;
 
 import java.io.Serializable;
 
+import prr.core.client.Client;
 import prr.core.terminal.Terminal;
 
-public abstract class Notification implements Serializable{
+public abstract class Notification implements Serializable {
 
-    /** Serial number for serialization. */
-    private static final long serialVersionUID = 202208091753L;
+    protected final Terminal _from;
+  
+    protected final String _type;
 
-    private final String _type;
-
-    private final Terminal _terminal;
-
-    public Notification(String type, Terminal terminal) {
-        _type = type;
-        _terminal = terminal;
+    protected final Client _receiver;
+  
+    public Notification(Terminal from, String type, Client receiver) {
+      _from = from;
+      _type = type;
+      _receiver = receiver;
     }
-
-    public String getType() {
-        return _type;
-    }
-
-    public String getTerminalId() {
-        return _terminal.getId();
-    }
-}
+  
+    public abstract void sendNotification();
+  }

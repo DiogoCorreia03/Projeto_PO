@@ -21,7 +21,6 @@ import prr.core.exception.UnknownCommunicationException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnsupportedAtDestinationException;
 import prr.core.exception.UnsupportedAtOriginException;
-import prr.core.notifications.DefaultNotification;
 
 /**
  * Abstract terminal.
@@ -224,8 +223,8 @@ abstract public class Terminal implements Serializable {
   public void sendNotifications() {
     for (Client c: _toNotify)
       if (c.getNotificationPreference())
-        c.addNotification(new DefaultNotification(_previous.toString().toUpperCase().charAt(0)
-          +"2"+_mode.toString().toUpperCase().charAt(0), this)); //FIXME tem de ficar mais bonito xD
+      c.getFactory().makeNotification(this, _previous.toString().toUpperCase().charAt(0)
+        +"2"+_mode.toString().toUpperCase().charAt(0), c);
     _toNotify.clear();
   }
 

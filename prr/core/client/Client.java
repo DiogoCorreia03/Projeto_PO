@@ -11,7 +11,10 @@ import prr.core.client.clientLevels.*;
 import prr.core.communication.CommsComparator;
 import prr.core.communication.Communication;
 import prr.core.exception.DuplicateClientException;
+import prr.core.notifications.DefaultFactory;
+import prr.core.notifications.DefaultNotification;
 import prr.core.notifications.Notification;
+import prr.core.notifications.NotificationFactory;
 import prr.core.terminal.Terminal;
 
 public class Client implements Serializable{
@@ -34,11 +37,15 @@ public class Client implements Serializable{
   /** Client's level. */
   private ClientLevel _level;
 
-  /** Client's terminals*/
+  /** Client's terminals. */
   private SortedMap<String, Terminal> _terminals = new TreeMap<>();
 
-  /** Client's unread notifications */
-  private List<Notification> _notifications = new ArrayList<>();
+  /** Client's unread notifications. */
+  private List<DefaultNotification> _defaulNotifications = new ArrayList<>();
+
+  /**Client's notification type preference. */
+  private NotificationFactory _factory;
+
 
   public Client(String key, String name, int nif) throws DuplicateClientException {
     _key = key;
@@ -46,6 +53,7 @@ public class Client implements Serializable{
     _nif = nif;
     _receiveNotifications = true;
     _level = NormalLevel._normalLevel;
+    _factory = new DefaultFactory();
   }
 
   public String getKey() {
@@ -80,13 +88,21 @@ public class Client implements Serializable{
     return getPayments() - getDebts();
   }
 
+  public NotificationFactory getFactory() {
+    return _factory;
+  }
+
   public void setLevel(ClientLevel level) {
     _level = level;
   }
 
+  public void setFactory(NotificationFactory factory) {
+    _factory = factory;
+  }
+
   public List<Notification> showAllNotifications() {
-    List<Notification> temp = new ArrayList<>(_notifications);
-    _notifications.clear();
+    List<Notification> temp = new ArrayList<>(_defaulNotifications);
+    _defaulNotifications.clear();
     return Collections.unmodifiableList(temp);
   }
 
@@ -94,8 +110,8 @@ public class Client implements Serializable{
     _terminals.put(terminal.getId(), terminal);
   }
 
-  public void addNotification(Notification n) {
-    _notifications.add(n);
+  public void addDefaultNotification(DefaultNotification notif) {
+    _defaulNotifications.add(notif);
   }
 
   public boolean enableNotifications() {
