@@ -12,8 +12,6 @@ public class PlatinumLevel implements ClientLevel {
 
     private static PlatinumLevel _platinumLevel;
 
-    private PlatinumLevel(){};
-
     public double computeCost(TextCommunication comm) {
         return comm.getSize()<50?0:4;
     }

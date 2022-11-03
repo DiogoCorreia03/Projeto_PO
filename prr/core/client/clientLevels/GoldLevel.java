@@ -12,8 +12,6 @@ public class GoldLevel implements ClientLevel {
     
     private static GoldLevel _goldLevel;
 
-    private GoldLevel(){}
-
     public double computeCost(TextCommunication comm) {
         int size = comm.getSize();
 

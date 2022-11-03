@@ -8,8 +8,6 @@ import prr.core.communication.VoiceCommunication;
 public class NormalLevel implements ClientLevel {
 
   private static NormalLevel _normalLevel;
-
-  private NormalLevel() {}
   
   public double computeCost(TextCommunication comm) {
     int size = comm.getSize();
