@@ -18,7 +18,7 @@ public class TextCommunication extends Communication {
   }
 
   protected double computeCost(ClientLevel level, boolean isFriend) {
-    return isFriend?level.computeCost(this)/2:level.computeCost(this);
+    return level.computeCost(this);
   }
 
   public int getSize() {

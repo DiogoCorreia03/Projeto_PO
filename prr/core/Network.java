@@ -280,6 +280,9 @@ public class Network implements Serializable {
 
 
   public void startInteractiveCommunication(Terminal origin, String receiverId, String type) throws TerminalOffException, TerminalBusyException, TerminalSilenceException, UnsupportedAtOriginException, UnsupportedAtDestinationException, UnknownTerminalException{
+    if (origin.getId() != receiverId)
+      throw new TerminalBusyException(receiverId);
+      
     Terminal receiver = getTerminal(receiverId);
     Communication interactiveComm = null;
     switch (type) {

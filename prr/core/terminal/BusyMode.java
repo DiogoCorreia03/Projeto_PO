@@ -23,7 +23,7 @@ public class BusyMode extends TerminalMode {
 
   @Override
   public boolean turnOff() {
-    return false;
+    return true;
   }
 
   @Override

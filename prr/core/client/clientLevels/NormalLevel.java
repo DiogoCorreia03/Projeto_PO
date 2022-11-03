@@ -7,7 +7,7 @@ import prr.core.communication.VoiceCommunication;
 
 public class NormalLevel implements ClientLevel {
 
-  private static NormalLevel _normalLevel;
+  public final static NormalLevel _normalLevel = new NormalLevel();
   
   public double computeCost(TextCommunication comm) {
     int size = comm.getSize();
@@ -24,14 +24,7 @@ public class NormalLevel implements ClientLevel {
 
   public void changeLevel(Client c) {
     if (c.getBalence() > 500)
-      c.setLevel(GoldLevel.getInstance());
-  }
-
-  public static NormalLevel getInstance() {
-    if (_normalLevel == null)
-      _normalLevel = new NormalLevel();
-
-    return _normalLevel;
+      c.setLevel(GoldLevel._goldLevel);
   }
 
   @Override
