@@ -46,9 +46,17 @@ public class Network implements Serializable {
   /** Terminals of the Network. */
   private Map<String, Terminal> _terminals = new TreeMap<>();
 
+  /** Communications of the Network */
   private List<Communication> _communications = new ArrayList<>();
 
-
+  /**
+   * Obtains a certain client.
+   * Receives the key of a Client, and gets the client associated to that key.
+   * @param key Key of the Client.
+   * @return  Client associated to that key.
+   * @throws UnknownClientException Exception thrown when the given
+   * Key isn't registered in the Network.
+   */
   private Client getClient(String key) throws UnknownClientException {
     String keyLower = key.toLowerCase();
     if (!_clients.containsKey(keyLower))
@@ -78,7 +86,7 @@ public class Network implements Serializable {
   /**
    * Show a Client from it's Key.
    * @param key Key of the Client.
-   * @return the Client associated with the given Key formatted to a String.
+   * @return Client associated with the given Key formatted to a String.
    * @throws UnknownClientException Exception thrown when the given
    * Key isn't registered in the Network.
    */
@@ -86,13 +94,20 @@ public class Network implements Serializable {
     return getClient(key).toString();
   }
 
+  /**
+   * Shows all notifications of a certain Client.
+   * @param key Key of the Client.
+   * @return List of notifications of the Client.
+   * @throws UnknownClientException Exception thrown when the given
+   * Key isn't registered in the Network.
+   */
   public List<Notification> showClientNotifications(String key) throws UnknownClientException {
     return getClient(key).showAllNotifications();
   }
 
   /**
    * Get a list of all the Client's in the Network.
-   * @return a list of all the Client's in the Network formatted to a String.
+   * @return list of all the Client's in the Network formatted to a String.
    */
   public List<String> showAllClients() {
     List<String> temp = new ArrayList<>();
@@ -101,26 +116,58 @@ public class Network implements Serializable {
     return temp;
   }
 
+  /**
+   * Enables nofications of a certain Client.
+   * @param key Key of the Client.
+   * @return Returns true if the operations suceeds.
+   * @throws UnknownClientException Exception thrown when the given
+   * Key isn't registered in the Network.
+   */
   public boolean enableClientNotifications(String key) throws UnknownClientException {
     Client c = getClient(key);
     return  c.enableNotifications();
   }
 
+  /**
+   * Disables nofications of a certain Client.
+   * @param key Key of the Client.
+   * @return Returns true if the operations suceeds.
+   * @throws UnknownClientException Exception thrown when the given
+   * Key isn't registered in the Network.
+   */
   public boolean disableClientNotifications(String key) throws UnknownClientException {
     Client c = getClient(key);
     return  c.disableNotifications();
   }
 
+  /**
+   * Obtains payments of a certain Client.
+   * @param key Key of the Client.
+   * @return Payments of the client
+   * @throws UnknownClientException Exception thrown when the given
+   * Key isn't registered in the Network.
+   */
   public double getClientPayments(String key) throws UnknownClientException{
     Client c = getClient(key);
     return c.getPayments();
   }
 
+  /**
+   * Obtains debts of a certain Client.
+   * @param key Key of the Client.
+   * @return Debts of the Client.
+   * @throws UnknownClientException Exception thrown when the given
+   * Key isn't registered in the Network.
+   */
   public double getClientDebts(String key) throws UnknownClientException{
     Client c = getClient(key);
     return c.getDebts();
   }
 
+  /**
+   * Shows all clients with debts.
+   * @return List of all the clients with debts, in the Network, formatted to a String.
+   */
   public List<String> showClientsWithDebts() {
     List<Client> list = new ArrayList<>(_clients.values());
     Collections.sort(list, new DebtsComparator());
@@ -133,6 +180,10 @@ public class Network implements Serializable {
     return ordered;
   }
 
+  /**
+   * Shows all clients without debts.
+   * @return List of all the clients without debts, in the Network, formatted to a String.
+   */
   public List<String> showClientsWithoutDebts() {
     List<String> temp = new ArrayList<>();
     
@@ -197,7 +248,7 @@ public class Network implements Serializable {
 
   /**
    * Get a list of all the Terminals in the Network.
-   * @return a list of all the Terminals in the Network.
+   * @return a list of all the Terminals in the Network, formatted to a String.
    */
   public List<String> showAllTerminals() {
     List<String> temp = new ArrayList<>();
@@ -254,7 +305,10 @@ public class Network implements Serializable {
     return list;
   }
 
-
+  /**
+   * Shows all terminals with positive balance in the Network.
+   * @return List of all the terminals with Positive Balance in the Network, formatted to a String.
+   */
   public List<String> showTerminalsWithPositiveBalance() {
     List<String> temp = new ArrayList<>();
     
@@ -266,6 +320,10 @@ public class Network implements Serializable {
     return temp;
   }
 
+  /**
+   * Obtains all communications in the Network.
+   * @return List of all the communications in the Network, formatted to a String.
+   */
   public List<String> getAllComms() {
     List<String> list = new ArrayList<>();
     for (Communication c: _communications)
@@ -273,12 +331,39 @@ public class Network implements Serializable {
     return list;
   }
 
+  /**
+   * Sends a text Communication.
+   * Receives an origin terminal, who sends the text message;
+   * receives a key that is associated to the Terminal receiver 
+   * of the text message and receives a String containing the text message.
+   * @param origin Terminal that sends the text message.
+   * @param receiverId Key of the Terminal that receives the message.
+   * @param msg String with the message.
+   * @throws TerminalOffException Exception is thrown if the Terminal associated to the Key is off.
+   * @throws UnknownTerminalException Exception thrown when the given Key isn't
+   * registered in the Network.
+   */
   public void sendTextCommunication(Terminal origin, String receiverId, String msg) throws TerminalOffException, UnknownTerminalException{
     Terminal receiver = getTerminal(receiverId);
-    _communications.add(origin.makeSMS(receiver, msg, _communications.size()+1));
+    _communications.add(origin.makeSMS(receiver, msg, _communications.size() + 1));
   }
 
-
+  /**
+   * Sends an interactive Communication.
+   * * Receives an origin terminal, who sends the text message;
+   * receives a key that is associated to the Terminal receiver 
+   * of the text message and receives a String containing the type of the message.
+   * @param origin Terminal that sends the text message.
+   * @param receiverId Key of the Terminal that receives the message.
+   * @param type String that contains the type of message.
+   * @throws TerminalOffException Exception is thrown if the Terminal associated to the Key is off.
+   * @throws TerminalBusyException Exception is thrown if the Terminal associated to the Key is busy.
+   * @throws TerminalSilenceException Exception is thrown if the Terminal associated to the Key is silent.
+   * @throws UnsupportedAtOriginException Exception is thrown if the origin Terminal does not support the Communication.
+   * @throws UnsupportedAtDestinationException Exception is thrown if the receiver Terminal associated to the Key does not support the Communication.
+   * @throws UnknownTerminalException Exception thrown when the given Key isn't
+   * registered in the Network.
+   */
   public void startInteractiveCommunication(Terminal origin, String receiverId, String type) throws TerminalOffException, TerminalBusyException, TerminalSilenceException, UnsupportedAtOriginException, UnsupportedAtDestinationException, UnknownTerminalException{
     if (origin.getId() == receiverId)
       throw new TerminalBusyException(receiverId);
@@ -286,12 +371,19 @@ public class Network implements Serializable {
     Terminal receiver = getTerminal(receiverId);
     Communication interactiveComm = null;
     switch (type) {
-      case "VOICE" -> interactiveComm = origin.makeVoiceCall(receiver, _communications.size()+1);
-      case "VIDEO" -> interactiveComm = origin.makeVideoCall(receiver, _communications.size()+1);
+      case "VOICE" -> interactiveComm = origin.makeVoiceCall(receiver, _communications.size() + 1);
+      case "VIDEO" -> interactiveComm = origin.makeVideoCall(receiver, _communications.size() + 1);
     }
     _communications.add(interactiveComm);
   }
 
+  /**
+   * Shows all communications that a certain Client made.
+   * @param id Key of the Client.
+   * @return List of all the communications made by a certain client.
+   * @throws UnknownClientException Exception thrown when the given
+   * Key isn't registered in the Network.
+   */
   public List<String> showCommunicationsfromClient(String id) throws UnknownClientException {
       Client c = getClient(id);
       List<Communication> temp = new ArrayList<>(c.getMadeCommunications());
@@ -302,6 +394,13 @@ public class Network implements Serializable {
       return ordered;  
   }
 
+  /**
+   Shows all communications that a certain Client received.
+   * @param id Key of the Client.
+   * @return List of all the communications received by a certain client.
+   * @throws UnknownClientException Exception thrown when the given
+   * Key isn't registered in the Network.
+   */
   public List<String> showCommunicationsToClient(String id) throws UnknownClientException {
       Client c = getClient(id);
       List<Communication> temp = new ArrayList<>(c.getReceivedCommunications());
@@ -312,7 +411,11 @@ public class Network implements Serializable {
       return ordered;     
   }
 
-
+  /**
+   * Shows global payments.
+   * Adds the payments of all the clients in the Network.
+   * @return Double containing the value of global payments.
+   */
   public double showGlobalPayments() {
     double sum_payments = 0;
     for (Client c : _clients.values())
@@ -321,6 +424,11 @@ public class Network implements Serializable {
     return sum_payments;
   }
 
+  /**
+   * Shows global debts.
+   * Adds the debts of all the clients in the Network.
+   * @return Double containing the value of global debts.
+   */
   public double showGlobalDebts() {
     double sum_debts = 0;
     for (Client c : _clients.values())

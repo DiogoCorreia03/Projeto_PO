@@ -114,6 +114,12 @@ public class Client implements Serializable{
     return true;
   }
 
+  public List<Communication> getReversedMadeCommunications() {
+    List<Communication> temp = getMadeCommunications();
+    Collections.sort(temp, new CommsComparator().reversed());
+    return temp;
+  }
+
   public List<Communication> getMadeCommunications() {
     List<Communication> temp = new ArrayList<>();
     for (Terminal t : _terminals.values())
