@@ -12,13 +12,13 @@ public abstract class Communication implements Serializable {
 
   private int _id;
 
-  private boolean _isPaid;
+  protected boolean _isPaid;
 
   double _cost;
 
   boolean _isOngoing;
 
-  protected Terminal _origin; //FIXME passar para private e por get?
+  protected Terminal _origin;
 
   protected Terminal _receiver;
 
@@ -37,10 +37,6 @@ public abstract class Communication implements Serializable {
 
   public int getId() {
     return _id;
-  }
-
-  public boolean getPaymentStatus() {
-    return _isPaid;
   }
 
   public double getCost() {

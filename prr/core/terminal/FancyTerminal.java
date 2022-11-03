@@ -18,9 +18,9 @@ public class FancyTerminal extends Terminal {
 
   public Communication makeVideoCall(Terminal receiver, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException, UnsupportedAtOriginException, UnsupportedAtDestinationException {
     try {
-      Communication videoComm = getMode().makeVideoCall(receiver, id);
+      Communication videoComm = _mode.makeVideoCall(receiver, id);
       setOngoingCommunication(videoComm);
-      setPrevious(getMode());
+      setPrevious(_mode);
       setBusy();
       addMadeCommunication(videoComm);
       return videoComm;
@@ -32,7 +32,7 @@ public class FancyTerminal extends Terminal {
 
   protected Communication acceptVideoCall(Terminal origin, int id) throws TerminalOffException, TerminalBusyException, TerminalSilenceException , UnsupportedAtDestinationException{
     try {
-      Communication videoComm = getMode().acceptVideoCall(origin, id);
+      Communication videoComm = _mode.acceptVideoCall(origin, id);
       setOngoingCommunication(videoComm);
       setBusy();
       addReceivedCommunication(videoComm);

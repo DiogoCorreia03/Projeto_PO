@@ -117,7 +117,7 @@ public class Client implements Serializable{
   public List<Communication> getReversedMadeCommunications() {
     List<Communication> temp = getMadeCommunications();
     Collections.sort(temp, new CommsComparator().reversed());
-    return temp;
+    return Collections.unmodifiableList(temp);
   }
 
   public List<Communication> getMadeCommunications() {
@@ -126,7 +126,7 @@ public class Client implements Serializable{
       temp.addAll(t.getMadeCommunications());
 
     Collections.sort(temp, new CommsComparator());
-    return temp;
+    return Collections.unmodifiableList(temp);
   }
 
   public List<Communication> getReceivedCommunications() {
@@ -135,7 +135,7 @@ public class Client implements Serializable{
       temp.addAll(t.getReceivedCommunications());
 
     Collections.sort(temp, new CommsComparator());
-    return temp;
+    return Collections.unmodifiableList(temp);
   }
 
   @Override

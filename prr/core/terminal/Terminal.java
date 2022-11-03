@@ -2,6 +2,7 @@ package prr.core.terminal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +37,7 @@ abstract public class Terminal implements Serializable {
 
   private double _payments;
 
-  private TerminalMode _mode;
+  protected TerminalMode _mode;
 
   private TerminalMode _previous;
 
@@ -62,10 +63,6 @@ abstract public class Terminal implements Serializable {
     return _id;
   }
 
-  protected TerminalMode getMode() {
-    return _mode;
-  }
-
   public double getPayments() {
     return _payments;
   }
@@ -74,7 +71,7 @@ abstract public class Terminal implements Serializable {
     return _debt;
   }
 
-  public Client getOwner() {
+  protected Client getOwner() {
     return _owner;
   }
 
@@ -88,25 +85,25 @@ abstract public class Terminal implements Serializable {
     _previous = temp;
   }
 
-  public void setMode(TerminalMode mode) {
+  protected void setMode(TerminalMode mode) {
     _mode = mode;
-  } 
+  }
 
-  public void setPrevious(TerminalMode mode) {
+  protected void setPrevious(TerminalMode mode) {
     _previous = mode;
   }
 
   public List<Communication> getMadeCommunications() {
     List<Communication> temp = new ArrayList<>(_madeCommunications);
-    return temp;
+    return Collections.unmodifiableList(temp);
   }
 
   public List<Communication> getReceivedCommunications() {
     List<Communication> temp = new ArrayList<>(_receivedCommunications);
-    return temp;
+    return Collections.unmodifiableList(temp);
   }
 
-  public void addToNotify(Client c) {
+  protected void addToNotify(Client c) {
     _toNotify.add(c);
   }
 
