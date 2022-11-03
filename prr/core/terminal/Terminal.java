@@ -83,7 +83,9 @@ abstract public class Terminal implements Serializable {
   }
 
   public void setPreviousMode() {
+    TerminalMode temp = _mode;
     _mode = _previous;
+    _previous = temp;
   }
 
   public void setMode(TerminalMode mode) {
@@ -225,8 +227,8 @@ abstract public class Terminal implements Serializable {
   public void sendNotifications() {
     for (Client c: _toNotify)
       if (c.getNotificationPreference())
-        c.addNotification(new DefaultNotification(_mode.toString().toUpperCase().charAt(0)
-          +"2"+ _previous.toString().toUpperCase().charAt(0), this)); //FIXME tem de ficar mais bonito xD
+        c.addNotification(new DefaultNotification(_previous.toString().toUpperCase().charAt(0)
+          +"2"+_mode.toString().toUpperCase().charAt(0), this)); //FIXME tem de ficar mais bonito xD
     _toNotify.clear();
   }
 

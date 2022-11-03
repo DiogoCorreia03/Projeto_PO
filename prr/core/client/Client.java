@@ -45,7 +45,7 @@ public class Client implements Serializable{
     _name = name;
     _nif = nif;
     _receiveNotifications = true;
-    _level = NormalLevel.getInstance(); //FIXME adicionar os outros niveis
+    _level = NormalLevel.getInstance();
   }
 
   public String getKey() {
