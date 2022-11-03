@@ -10,4 +10,3 @@ public class DefaultFactory extends NotificationFactory { //FIXME singleton?
     return new DefaultNotification(from, type, receiver);
   }
 }
-
