@@ -10,9 +10,7 @@ import prr.core.communication.VoiceCommunication;
 
 public class GoldLevel implements ClientLevel {
     
-    private static GoldLevel _goldLevel;
-
-    private GoldLevel(){}
+    public final static GoldLevel _goldLevel = new GoldLevel();
 
     public double computeCost(TextCommunication comm) {
         int size = comm.getSize();
@@ -26,9 +24,9 @@ public class GoldLevel implements ClientLevel {
 
     public void changeLevel(Client c) {
         if (c.getBalence() < 0)
-            c.setLevel(NormalLevel.getInstance());
+            c.setLevel(NormalLevel._normalLevel);
         else if (lastFiveCommunications(c.getMadeCommunications()))
-            c.setLevel(PlatinumLevel.getInstance());
+            c.setLevel(PlatinumLevel._platinumLevel);
     }
 
     private boolean lastFiveCommunications(List<Communication> list) {
@@ -40,13 +38,6 @@ public class GoldLevel implements ClientLevel {
 
     public double computeCost(VideoCommunication comm) {
         return 20 * comm.getSize();
-    }
-
-    public static GoldLevel getInstance() {
-        if (_goldLevel == null)
-          _goldLevel = new GoldLevel();
-    
-        return _goldLevel;
     }
 
     @Override

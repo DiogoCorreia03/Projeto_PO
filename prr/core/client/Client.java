@@ -45,19 +45,11 @@ public class Client implements Serializable{
     _name = name;
     _nif = nif;
     _receiveNotifications = true;
-    _level = NormalLevel.getInstance();
+    _level = NormalLevel._normalLevel;
   }
 
   public String getKey() {
     return _key;
-  }
-
-  public String getName() {
-    return _name;
-  }
-
-  public int getNif() {
-    return _nif;
   }
 
   public boolean getNotificationPreference() {
@@ -95,7 +87,7 @@ public class Client implements Serializable{
   public List<Notification> showAllNotifications() {
     List<Notification> temp = new ArrayList<>(_notifications);
     _notifications.clear();
-    return temp;
+    return Collections.unmodifiableList(temp);
   }
 
   public void addTerminal(Terminal terminal) {

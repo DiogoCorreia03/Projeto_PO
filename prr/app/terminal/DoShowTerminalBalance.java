@@ -18,7 +18,10 @@ class DoShowTerminalBalance extends TerminalCommand {
    */
   @Override
   protected final void execute() throws CommandException {
-    _display.addLine(Message.terminalPaymentsAndDebts(_receiver.getId(), Math.round(_receiver.getPayments()), Math.round(_receiver.getDebt())));
+    String id = _receiver.getId();
+    double payments = _receiver.getPayments();
+    double debts = _receiver.getDebt();
+    _display.addLine(Message.terminalPaymentsAndDebts(id, Math.round(payments), Math.round(debts)));
     _display.display();
   }
 }

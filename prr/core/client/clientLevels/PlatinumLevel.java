@@ -10,9 +10,7 @@ import prr.core.communication.VoiceCommunication;
 
 public class PlatinumLevel implements ClientLevel {
 
-    private static PlatinumLevel _platinumLevel;
-
-    private PlatinumLevel(){};
+    public final static PlatinumLevel _platinumLevel = new PlatinumLevel();
 
     public double computeCost(TextCommunication comm) {
         return comm.getSize()<50?0:4;
@@ -28,9 +26,9 @@ public class PlatinumLevel implements ClientLevel {
 
     public void changeLevel(Client c) {
         if (c.getBalence() < 0)
-            c.setLevel(NormalLevel.getInstance());
+            c.setLevel(NormalLevel._normalLevel);
         else if (lastTwoCommunications(c.getMadeCommunications()))
-            c.setLevel(GoldLevel.getInstance());
+            c.setLevel(GoldLevel._goldLevel);
     }
 
     private boolean lastTwoCommunications(List<Communication> list) {
@@ -38,13 +36,6 @@ public class PlatinumLevel implements ClientLevel {
             if (!(list.get(i) instanceof TextCommunication))
                 return false;
         return true;
-    }
-
-    public static PlatinumLevel getInstance() {
-        if (_platinumLevel == null)
-            return new PlatinumLevel();
-
-        return _platinumLevel;
     }
 
     @Override
