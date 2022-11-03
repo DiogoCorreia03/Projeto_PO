@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import prr.core.terminal.Terminal;
 
-public interface Notification extends Serializable{
+public abstract class Notification implements Serializable{
 
     /** Serial number for serialization. */
-    static final long serialVersionUID = 202208091753L;
+    private static final long serialVersionUID = 202208091753L;
 
     private final String _type;
 
