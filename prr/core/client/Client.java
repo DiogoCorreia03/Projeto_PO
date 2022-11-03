@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import prr.core.client.clientLevels.*;
@@ -35,7 +35,7 @@ public class Client implements Serializable{
   private ClientLevel _level;
 
   /** Client's terminals*/
-  private Map<String, Terminal> _terminals = new TreeMap<>();
+  private SortedMap<String, Terminal> _terminals = new TreeMap<>();
 
   /** Client's unread notifications */
   private List<Notification> _notifications = new ArrayList<>();
