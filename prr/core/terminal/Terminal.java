@@ -10,7 +10,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import prr.core.client.Client;
-import prr.core.client.clientLevels.ClientLevel;
+import prr.core.client.clientlevels.ClientLevel;
 import prr.core.communication.Communication;
 import prr.core.exception.DuplicateTerminalException;
 import prr.core.exception.TerminalBusyException;
@@ -156,9 +156,7 @@ abstract public class Terminal implements Serializable {
   }
 
   public boolean isActiveTerminal() {
-    if (_receivedCommunications.size() == 0 && _madeCommunications.size() == 0)
-      return false;
-    return true;
+    return _receivedCommunications.isEmpty() && _madeCommunications.isEmpty();
   }
 
   private Communication getMadeCommunication(int id) throws UnknownCommunicationException {
@@ -236,9 +234,7 @@ abstract public class Terminal implements Serializable {
    *         it was the originator of this communication.
    **/
   public boolean canEndCurrentCommunication() {
-    if (_mode instanceof BusyMode && _ongoingCommunication.isOrigin(_id))
-      return true;
-    return false;
+    return _mode instanceof BusyMode && _ongoingCommunication.isOrigin(_id);
   }
 
   /**
@@ -247,9 +243,7 @@ abstract public class Terminal implements Serializable {
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
   public boolean canStartCommunication() {
-    if (_mode instanceof IdleMode || _mode instanceof SilenceMode)
-      return true;
-    return false;
+    return _mode instanceof IdleMode || _mode instanceof SilenceMode;
   }
 
   public boolean equals(Terminal t) {
@@ -259,7 +253,7 @@ abstract public class Terminal implements Serializable {
   private String getFriends() {
     List<String> list = new ArrayList<>(_friends.keySet());
     String joined = String.join(", ", list);
-    if (list.size() > 0)
+    if (!list.isEmpty())
       joined = "|" + joined;
     return joined;
   }

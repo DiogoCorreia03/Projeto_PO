@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import prr.core.client.clientLevels.*;
+import prr.core.client.clientlevels.ClientLevel;
+import prr.core.client.clientlevels.NormalLevel;
 import prr.core.communication.CommsComparator;
 import prr.core.communication.Communication;
 import prr.core.exception.DuplicateClientException;

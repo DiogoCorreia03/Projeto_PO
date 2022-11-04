@@ -1,4 +1,4 @@
-package prr.core.client.clientLevels;
+package prr.core.client.clientlevels;
 
 import java.io.Serializable;
 

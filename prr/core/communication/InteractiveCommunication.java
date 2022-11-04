@@ -1,6 +1,6 @@
 package prr.core.communication;
 
-import prr.core.client.clientLevels.ClientLevel;
+import prr.core.client.clientlevels.ClientLevel;
 import prr.core.terminal.Terminal;
 
 public abstract class InteractiveCommunication extends Communication {
@@ -25,10 +25,5 @@ public abstract class InteractiveCommunication extends Communication {
 
   public int getSize() {
     return _duration;
-  }
-
-  @Override
-  public String toString() {
-    return super.toString();
   }
 }

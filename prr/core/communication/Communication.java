@@ -2,7 +2,7 @@ package prr.core.communication;
 
 import java.io.Serializable;
 
-import prr.core.client.clientLevels.ClientLevel;
+import prr.core.client.clientlevels.ClientLevel;
 import prr.core.terminal.Terminal;
 
 public abstract class Communication implements Serializable {
