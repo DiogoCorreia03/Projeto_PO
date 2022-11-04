@@ -25,9 +25,10 @@ public class PlatinumLevel implements ClientLevel {
     }
 
     public void changeLevel(Client c) {
+        List<Communication> list = c.getReversedMadeCommunications();
         if (c.getBalence() < 0)
             c.setLevel(NormalLevel._normalLevel);
-        else if (lastTwoCommunications(c.getReversedMadeCommunications()))
+        else if (list.size() >= 2 && lastTwoCommunications(list))
             c.setLevel(GoldLevel._goldLevel);
     }
 
