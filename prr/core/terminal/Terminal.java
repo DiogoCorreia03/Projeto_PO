@@ -156,7 +156,7 @@ abstract public class Terminal implements Serializable {
   }
 
   public boolean isActiveTerminal() {
-    return _receivedCommunications.isEmpty() && _madeCommunications.isEmpty();
+    return !(_receivedCommunications.isEmpty() && _madeCommunications.isEmpty());
   }
 
   private Communication getMadeCommunication(int id) throws UnknownCommunicationException {
@@ -168,6 +168,8 @@ abstract public class Terminal implements Serializable {
 
   public void makePayment (int commID) throws UnknownCommunicationException {
     Communication comm = getMadeCommunication(commID);
+    if (comm.isPaid())
+      throw new UnknownCommunicationException();
     double cost = comm.getCost();
     _debt -= cost;
     _payments += cost;

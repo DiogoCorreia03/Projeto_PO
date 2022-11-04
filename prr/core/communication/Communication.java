@@ -47,6 +47,10 @@ public abstract class Communication implements Serializable {
     _cost = cost;
   }
 
+  public boolean isPaid() {
+    return _isPaid;
+  }
+
   public void Pay() {
     _isPaid = true;
   }
