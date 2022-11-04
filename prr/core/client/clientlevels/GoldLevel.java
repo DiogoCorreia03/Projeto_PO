@@ -23,9 +23,10 @@ public class GoldLevel implements ClientLevel {
     }
 
     public void changeLevel(Client c) {
+        List<Communication> list = c.getReversedMadeCommunications();
         if (c.getBalence() < 0)
             c.setLevel(NormalLevel._normalLevel);
-        else if (lastFiveCommunications(c.getReversedMadeCommunications()))
+        else if (list.size() >= 5 && lastFiveCommunications(list))
             c.setLevel(PlatinumLevel._platinumLevel);
     }
 

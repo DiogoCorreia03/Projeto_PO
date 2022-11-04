@@ -2,7 +2,6 @@ package prr.core.terminal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -94,12 +93,12 @@ abstract public class Terminal implements Serializable {
 
   public List<Communication> getMadeCommunications() {
     List<Communication> temp = new ArrayList<>(_madeCommunications);
-    return Collections.unmodifiableList(temp);
+    return temp;
   }
 
   public List<Communication> getReceivedCommunications() {
     List<Communication> temp = new ArrayList<>(_receivedCommunications);
-    return Collections.unmodifiableList(temp);
+    return temp;
   }
 
   protected void addToNotify(Client c) {
@@ -174,6 +173,7 @@ abstract public class Terminal implements Serializable {
     _debt -= cost;
     _payments += cost;
     comm.Pay();
+    _owner.getClientLevel().changeLevel(_owner);
   }
 
   public Communication makeSMS(Terminal receiver, String message, int id) throws TerminalOffException {
