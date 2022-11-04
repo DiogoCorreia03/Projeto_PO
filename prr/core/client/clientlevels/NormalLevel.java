@@ -1,4 +1,4 @@
-package prr.core.client.clientLevels;
+package prr.core.client.clientlevels;
 
 import prr.core.client.Client;
 import prr.core.communication.TextCommunication;

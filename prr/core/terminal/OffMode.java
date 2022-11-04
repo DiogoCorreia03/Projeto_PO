@@ -1,6 +1,6 @@
 package prr.core.terminal;
 
-import prr.core.client.clientLevels.ClientLevel;
+import prr.core.client.clientlevels.ClientLevel;
 import prr.core.communication.Communication;
 import prr.core.exception.TerminalOffException;
 

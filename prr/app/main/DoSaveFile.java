@@ -1,6 +1,5 @@
 package prr.app.main;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import prr.app.exception.FileOpenFailedException;
@@ -33,9 +32,6 @@ class DoSaveFile extends Command<NetworkManager> {
       catch (MissingFileAssociationException | IOException e1) {
         throw new FileOpenFailedException(e1);
       }
-    }
-    catch (FileNotFoundException e) {
-      throw new FileOpenFailedException(e);
     }
     catch (IOException e) {
       throw new FileOpenFailedException(e);

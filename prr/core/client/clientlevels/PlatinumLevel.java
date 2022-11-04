@@ -1,4 +1,4 @@
-package prr.core.client.clientLevels;
+package prr.core.client.clientlevels;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class PlatinumLevel implements ClientLevel {
 
     private boolean lastTwoCommunications(List<Communication> list) {
         for (int i = 0; i < 2; i++)
-            if (!(list.get(i) instanceof TextCommunication))
+            if (!(list.get(i) instanceof TextCommunication) || list.get(i).isOngoing())
                 return false;
         return true;
     }

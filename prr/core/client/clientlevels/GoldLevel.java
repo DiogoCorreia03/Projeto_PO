@@ -1,4 +1,4 @@
-package prr.core.client.clientLevels;
+package prr.core.client.clientlevels;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class GoldLevel implements ClientLevel {
 
     private boolean lastFiveCommunications(List<Communication> list) {
         for (int i = 0; i < 5; i++)
-            if (!(list.get(i) instanceof VideoCommunication))
+            if (!(list.get(i) instanceof VideoCommunication) || list.get(i).isOngoing())
                 return false;
         return true;
     }

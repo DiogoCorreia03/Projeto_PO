@@ -78,15 +78,12 @@ public class Parser {
         case "SILENCE" -> terminal.setOnSilent();
         case "OFF" -> terminal.turnOff();
         default -> {
-         if (!components[3].equals("ON"))
+         if (!"ON".equals(components[3]))
            throw new UnrecognizedEntryException("Invalid specification in line: " + line);
         } 
       }
     }
-    catch (UnknownClientException e) {
-      throw new UnrecognizedEntryException("Invalid specification: " + line, e);
-    }
-    catch (TerminalException e) {
+    catch (UnknownClientException | TerminalException e) {
       throw new UnrecognizedEntryException("Invalid specification: " + line, e);
     }
   }

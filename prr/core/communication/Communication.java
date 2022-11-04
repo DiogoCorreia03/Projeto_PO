@@ -2,7 +2,7 @@ package prr.core.communication;
 
 import java.io.Serializable;
 
-import prr.core.client.clientLevels.ClientLevel;
+import prr.core.client.clientlevels.ClientLevel;
 import prr.core.terminal.Terminal;
 
 public abstract class Communication implements Serializable {
@@ -45,6 +45,14 @@ public abstract class Communication implements Serializable {
 
   protected void setCost(double cost) {
     _cost = cost;
+  }
+
+  public boolean isPaid() {
+    return _isPaid;
+  }
+
+  public boolean isOngoing() {
+    return _isOngoing;
   }
 
   public void Pay() {

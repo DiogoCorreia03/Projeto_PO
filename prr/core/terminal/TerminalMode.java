@@ -2,7 +2,7 @@ package prr.core.terminal;
 
 import java.io.Serializable;
 
-import prr.core.client.clientLevels.ClientLevel;
+import prr.core.client.clientlevels.ClientLevel;
 import prr.core.communication.Communication;
 import prr.core.communication.TextCommunication;
 import prr.core.communication.VideoCommunication;
