@@ -7,7 +7,7 @@ public abstract class NotificationFactory {
 
   public Notification makeNotification(Terminal from, String type, Client receiver) {
     Notification notif = createNotification(from, type, receiver);
-    //FIXME notif.sendNotification();
+    notif.sendNotification();
     return notif;
   }
 

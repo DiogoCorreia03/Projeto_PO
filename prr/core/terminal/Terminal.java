@@ -21,8 +21,6 @@ import prr.core.exception.UnknownCommunicationException;
 import prr.core.exception.UnknownTerminalException;
 import prr.core.exception.UnsupportedAtDestinationException;
 import prr.core.exception.UnsupportedAtOriginException;
-import prr.core.notifications.NotificationService;
-import prr.core.notifications.NotificationType;
 
 /**
  * Abstract terminal.
@@ -52,9 +50,7 @@ abstract public class Terminal implements Serializable {
 
   private Communication _ongoingCommunication;
 
-  private Set<Client> _toNotify = new HashSet<>(); //FIXME delete
-
-  private final NotificationService _notificationService = new NotificationService(); //FIXME
+  private Set<Client> _toNotify = new HashSet<>();
 
   public Terminal(String id, Client owner) throws DuplicateTerminalException {
     _id = id;
@@ -76,10 +72,6 @@ abstract public class Terminal implements Serializable {
 
   protected Client getOwner() {
     return _owner;
-  }
-
-  public NotificationService getService() { //FIXME protected?
-    return _notificationService;
   }
 
   protected void addDebt(double d) {
@@ -110,13 +102,8 @@ abstract public class Terminal implements Serializable {
     return Collections.unmodifiableList(temp);
   }
 
-  protected void addToNotify(Client c) { //FIXME
-    _notificationService.add(c.getFactory().makeNotification(this, _mode.toString().toUpperCase().charAt(0)
-      +"2"+ _previous.toString().toUpperCase().charAt(0), c));
-  }
-
-  protected void addToNotify(Client c, NotificationType type) { //FIXME
-    _notificationService.add(c.getFactory().makeNotification(this, type.toString(), c));
+  protected void addToNotify(Client c) {
+    _toNotify.add(c);
   }
 
   public boolean turnOff() {
@@ -233,8 +220,12 @@ abstract public class Terminal implements Serializable {
     return cost;
   }
 
-  public void sendNotifications() { //FIXME
-    _notificationService.notifyClients();
+  public void sendNotifications() {
+    for (Client c: _toNotify)
+      if (c.getNotificationPreference())
+      c.getFactory().makeNotification(this, _previous.toString().toUpperCase().charAt(0)
+        +"2"+_mode.toString().toUpperCase().charAt(0), c);
+    _toNotify.clear();
   }
 
   /**

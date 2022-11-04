@@ -3,7 +3,7 @@ package prr.core.notifications;
 import prr.core.client.Client;
 import prr.core.terminal.Terminal;
 
-public class DefaultFactory extends NotificationFactory {
+public class DefaultFactory extends NotificationFactory { //FIXME singleton?
 
   @Override
   public Notification createNotification(Terminal from, String type, Client receiver) {
