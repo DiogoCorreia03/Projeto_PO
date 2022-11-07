@@ -1,9 +1,11 @@
 package prr.core.notifications;
 
+import java.io.Serializable;
+
 import prr.core.client.Client;
 import prr.core.terminal.Terminal;
 
-public abstract class NotificationFactory {
+public abstract class NotificationFactory implements Serializable {
 
   public Notification makeNotification(Terminal from, String type, Client receiver) {
     Notification notif = createNotification(from, type, receiver);
