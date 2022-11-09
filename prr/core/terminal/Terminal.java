@@ -167,12 +167,12 @@ abstract public class Terminal implements Serializable {
 
   public void makePayment (int commID) throws UnknownCommunicationException {
     Communication comm = getMadeCommunication(commID);
-    if (comm.isPaid())
+    if (comm.isOngoing() || comm.isPaid())
       throw new UnknownCommunicationException();
     double cost = comm.getCost();
     _debt -= cost;
     _payments += cost;
-    comm.Pay();
+    comm.pay();
     _owner.getClientLevel().changeLevel(_owner);
   }
 
@@ -221,11 +221,13 @@ abstract public class Terminal implements Serializable {
   }
 
   public void sendNotifications() {
-    for (Client c: _toNotify)
-      if (c.getNotificationPreference())
-      c.getFactory().makeNotification(this, _previous.toString().toUpperCase().charAt(0)
-        +"2"+_mode.toString().toUpperCase().charAt(0), c);
-    _toNotify.clear();
+    if (!(_previous instanceof BusyMode) || !(_mode instanceof SilenceMode)) {
+      for (Client c: _toNotify)
+        if (c.getNotificationPreference())
+        c.getFactory().makeNotification(this, _previous.toString().toUpperCase().charAt(0)
+          +"2"+_mode.toString().toUpperCase().charAt(0), c);
+      _toNotify.clear();
+    }
   }
 
   /**
