@@ -169,14 +169,15 @@ public class Network implements Serializable {
    * @return List of all the clients with debts, in the Network, formatted to a String.
    */
   public List<String> showClientsWithDebts() {
-    List<Client> list = new ArrayList<>(_clients.values());
+    List<Client> list = new ArrayList<>();
+    for (Client c: _clients.values())
+      if (c.getDebts() > 0)
+        list.add(c);
+
     Collections.sort(list, new DebtsComparator());
     List<String> ordered = new ArrayList<>();
-
-    for (Client c : list) {
+    for (Client c : list)
       ordered.add(c.toString());
-    }
-
     return ordered;
   }
 
