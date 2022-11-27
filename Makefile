@@ -8,4 +8,4 @@ run:
 	java -cp po-uilib.jar:. prr.app.App
 
 clean:
-	find . -name \*.class -type f -delete
+	find prr -name \*.class -type f -delete
