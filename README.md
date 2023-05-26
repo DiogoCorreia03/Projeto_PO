@@ -1,6 +1,6 @@
 # [DiogoCorreia03/Projeto_PO](https://github.com/DiogoCorreia03/Projeto_PO)
 
-## Object Oriented Programming project.
+## Object Oriented Programming Project.
 
 Folder pt/tecnico/uilib was given as base code with functions to help on the development.
 
