@@ -14,5 +14,5 @@ The objective was to develop an App that would work as a Manager of a Network of
 - Get the balance of a Terminal;
 - Get information on a Client, Terminal or made Communication.
 
-## Grade: 17/20
-## Class Final Grade 18/20
+## Project Grade: 17/20
+## Final Grade 18/20
